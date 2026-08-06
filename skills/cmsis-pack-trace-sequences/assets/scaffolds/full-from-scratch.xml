@@ -1,0 +1,31 @@
+<cmsis-pack-trace-scaffold use-case="full-from-scratch">
+  <sequences traceSetup="full">
+    <sequence name="TraceStart">
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START BEGIN -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
+      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Configure"); -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
+    </sequence>
+    <sequence name="TraceCapture">
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-CAPTURE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-CAPTURE END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
+      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Capture"); -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="TraceFlush">
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Flush"); -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-FLUSH BEGIN -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-FLUSH END -->
+    </sequence>
+    <sequence name="TraceStop">
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-STOP BEGIN -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-STOP END -->
+    </sequence>
+  </sequences>
+</cmsis-pack-trace-scaffold>

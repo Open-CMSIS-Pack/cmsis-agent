@@ -1,0 +1,16 @@
+<cmsis-pack-trace-scaffold use-case="legacy-to-full">
+  <!-- Extract existing device-specific behavior into DEVICE-EXTENSION markers. Do not retain legacy debugger-assumed CoreSight setup. -->
+  <sequences traceSetup="full">
+    <sequence name="TraceStart">
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START BEGIN -->
+      <!-- TODO: migrated device-specific setup calls -->
+      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
+      <!-- TODO: selected component Configure calls -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
+    </sequence>
+    <sequence name="TraceCapture"><!-- Assemble as in full-from-scratch.xml. --></sequence>
+    <sequence name="TraceFlush"><!-- Assemble as in full-from-scratch.xml. --></sequence>
+    <sequence name="TraceStop"><!-- Assemble as in full-from-scratch.xml. --></sequence>
+  </sequences>
+</cmsis-pack-trace-scaffold>

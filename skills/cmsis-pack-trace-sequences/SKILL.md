@@ -5,7 +5,7 @@ description: Add modular, evidence-backed CoreSight trace sequences to an existi
 
 # CMSIS-Pack trace sequences
 
-Assemble modular CoreSight trace snippets into an existing PDSC. Read `references/assembly-contract.md` and the selected files in `assets/` before editing.
+Assemble modular CoreSight trace snippets into an existing PDSC. Read `references/component-index.md` first, then only the selected component assets. Use `assets/scaffolds/full-from-scratch.xml` for new full-mode sequences; read `references/legacy-to-full-migration.md` and use `assets/scaffolds/legacy-to-full.xml` when converting legacy mode.
 
 ## Preconditions
 
@@ -16,7 +16,7 @@ Assemble modular CoreSight trace snippets into an existing PDSC. Read `reference
 ## Assembly rules
 
 1. Map the selected device subtree and group descendants with an identical verified trace configuration. Emit each shared configuration at the topmost selected tree level common to that group. Emit only differing snippets, variables, scaffold calls, or extension placeholders on outer leaf variants; do not copy an identical full configuration to each variant.
-2. Select one component snippet per physical CoreSight instance that is required by the verified trace path. Keep the result minimal: omit unused snippets, variables, and calls; copy each required snippet's `<debugvars>` contributions into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions.
+2. Select one component asset per physical CoreSight instance that is required by the verified trace path. Keep the result minimal: omit unused assets, snippets, variables, and calls; copy each required asset's `<debugvars>` contributions into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions.
 3. Rename every copied non-predefined sequence with a numeric component-instance suffix, for example `CS_TPIU_0_Enable`, `CS_TPIU_1_Enable`. Number instances of each component type from `0` in ascending verified base-address order, and preserve those numbers on later updates. Update every `Sequence("...")` call accordingly.
 4. Copy sequence bodies into the PDSC and use the scaffold to call them from the relevant predefined sequence. Never emit an unresolved generic sequence name shared by two instances.
 5. Preserve the four marker pairs defined in `references/assembly-contract.md`. They delimit user-maintained device extensions.

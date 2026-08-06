@@ -1,0 +1,27 @@
+<!-- CMSIS-Pack TimestampGenerator template. Replace __INSTANCE_INDEX__ with the stable numeric instance suffix. -->
+<cmsis-pack-trace-snippet component="TimestampGenerator">
+  <debugvars>
+    // TIMESTAMP GENERATOR
+    __var TIMESTAMP_GENERATOR___INSTANCE_INDEX___ADDRESS    = 0x00000000;
+    __var TIMESTAMP_GENERATOR___INSTANCE_INDEX___AP         = 0x00000000;
+  </debugvars>
+  <sequence name="CS_TIMESTAMP_GENERATOR___INSTANCE_INDEX___Configure">
+    <block>
+      // Helper variables
+      __var savedAP    = __ap;
+      __var value      = 0x00000000;
+
+      Message(0, "Begin CS_TIMESTAMP_GENERATOR___INSTANCE_INDEX___Configure @0x%08X, AP 0x%08X", TIMESTAMP_GENERATOR___INSTANCE_INDEX___ADDRESS, TIMESTAMP_GENERATOR___INSTANCE_INDEX___AP);
+
+      __ap = TIMESTAMP_GENERATOR___INSTANCE_INDEX___AP; // Set AP
+
+      // TODO: Find out if the control interface is accessible to debugger!!
+      //       Documentation not entirely clear to me.
+
+      __ap = savedAP;
+      Message(0, "End CS_TIMESTAMP_GENERATOR___INSTANCE_INDEX___Configure @0x%08X, AP 0x%08X", TIMESTAMP_GENERATOR___INSTANCE_INDEX___ADDRESS, TIMESTAMP_GENERATOR___INSTANCE_INDEX___AP);
+    </block>
+  </sequence>
+</cmsis-pack-trace-snippet>
+
+
