@@ -1,0 +1,30 @@
+---
+name: cmsis-pack-trace-sequences
+description: Add modular, evidence-backed CoreSight trace sequences to an existing CMSIS Device Family Pack PDSC. Use after CMSIS-Pack debug topology is defined, when assembling per-component trace snippets into TraceStart, TraceCapture, TraceFlush, and TraceStop sequences, or when maintaining trace setup with device-specific extension placeholders.
+---
+
+# CMSIS-Pack trace sequences
+
+Assemble modular CoreSight trace snippets into an existing PDSC. Read `references/assembly-contract.md` and the selected files in `assets/` before editing.
+
+## Preconditions
+
+1. Find the target PDSC, selected family/subFamily/device/variant scope, and its matching `.agent-artifacts/<pdsc-stem>.debug-topology.md` review record.
+2. Require `Status: READY FOR TRACE`. Cross-check its component instances, addresses, DP/AP paths, recorded placement scope, and explicit `debugconfig`/`debug` elements against the PDSC. If the record is absent, blocked, stale, or insufficient for the requested path, stop and direct the user to `$cmsis-pack-debug-topology`.
+3. Generate and maintain the target `<sequences traceSetup="full">` configuration. Do not generate `legacy` trace setup; if the existing PDSC declares `legacy`, report that it will be converted to `full` as part of the trace change.
+
+## Assembly rules
+
+1. Map the selected device subtree and group descendants with an identical verified trace configuration. Emit each shared configuration at the topmost selected tree level common to that group. Emit only differing snippets, variables, scaffold calls, or extension placeholders on outer leaf variants; do not copy an identical full configuration to each variant.
+2. Select one component snippet per physical CoreSight instance that is required by the verified trace path. Keep the result minimal: omit unused snippets, variables, and calls; copy each required snippet's `<debugvars>` contributions into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions.
+3. Rename every copied non-predefined sequence with a numeric component-instance suffix, for example `CS_TPIU_0_Enable`, `CS_TPIU_1_Enable`. Number instances of each component type from `0` in ascending verified base-address order, and preserve those numbers on later updates. Update every `Sequence("...")` call accordingly.
+4. Copy sequence bodies into the PDSC and use the scaffold to call them from the relevant predefined sequence. Never emit an unresolved generic sequence name shared by two instances.
+5. Preserve the four marker pairs defined in `references/assembly-contract.md`. They delimit user-maintained device extensions.
+6. Enforce order exactly:
+   - `TraceStart` and `TraceCapture`: device extension calls, then CoreSight calls.
+   - `TraceFlush` and `TraceStop`: CoreSight calls, then device extension calls.
+7. Do not invent register addresses, register values, funnel routes, timestamping, formatter settings, component ordering, or a dormant-state requirement. Honor the topology record's evidence-backed `debugconfig dormant` decision; return to `$cmsis-pack-debug-topology` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified topology. If an identified document cannot be downloaded, list its URL and retrieval issue in the trace assembly record, then ask the user to download it manually and copy it into the target workspace before using it as evidence.
+
+## Deliverable and validation
+
+Update the target `<debugvars>` and `<sequences>` in place, keeping the output recognizable through its `CMSIS-PACK-TRACE` markers. Create `.agent-artifacts/` at the project root when needed and write or update `.agent-artifacts/<pdsc-stem>.trace-sequences.md`. Report each definition's PDSC placement and applicable descendants, selected component instances, emitted sequence names, trace setup mode, extension placeholders, and validation result. Validate PDSC/XML syntax with the project's available toolchain.
