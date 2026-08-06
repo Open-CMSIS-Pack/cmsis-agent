@@ -11,7 +11,5 @@ Read this file first, then load only the selected component assets.
 | `components/swo.xml` | standalone SWO output is used | SWO/TPIU base address, AP, clocks |
 | `components/funnel.xml` | a trace funnel is on the selected path | base address, AP, input mask |
 | `components/replicator.xml` | a replicator is on the selected path | base address, AP, output filters |
-| `components/timestamp-generator.xml` | a timestamp generator is present | base address, AP, documented control interface |
-| `components/cpu-trace.xml` | CPU trace enablement is required | processor and DEMCR applicability |
 
 Use ETR/CATU as one asset for now. If the target lacks CATU, omit the CATU variables and sequences from that asset's merge. A future split is mechanical because the XML keeps ETR and CATU identifiers distinct.
