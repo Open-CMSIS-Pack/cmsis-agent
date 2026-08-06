@@ -1,15 +1,15 @@
 <cmsis-pack-trace-scaffold use-case="full-from-scratch">
   <sequences traceSetup="full">
     <sequence name="TraceStart">
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE BEGIN -->
-      <!-- Add device-specific trace pin, clock, or access-enable setup here. -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE END -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
       <block>
         __var swoTrace = __traceout &amp; 0x1;
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
+      <!-- Add device-specific trace pin, clock, or access-enable setup here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
       <control if="swoTrace != 0">
         <block>
           Sequence("CS_TPIU_0_Configure");
@@ -32,14 +32,15 @@
       <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="TraceCapture">
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE BEGIN -->
-      <!-- Add device-specific capture setup here. -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE END -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
       <block>
+        __var swoTrace = __traceout &amp; 0x1;
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
+      <!-- Add device-specific capture setup here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
       <control if="syncTrace != 0">
         <block>
           Sequence("CS_TPIU_0_Capture");
@@ -54,6 +55,7 @@
     </sequence>
     <sequence name="DoTraceFlush">
       <block>
+        __var swoTrace = __traceout &amp; 0x1;
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
@@ -69,9 +71,13 @@
       </control>
     </sequence>
     <sequence name="TraceFlush">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <block>
-        __var bufferTrace = __traceout &amp; 0x4;
         Sequence("DoTraceFlush");
       </block>
       <control if="bufferTrace != 0">
@@ -80,28 +86,29 @@
         </block>
       </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
       <!-- Add device-specific post-flush work here. -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
     </sequence>
     <sequence name="TraceStop">
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
       <block>
-        __var traceActive = __traceout &amp; 0x6;
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <control if="traceActive != 0">
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <control if="syncTrace || bufferTrace">
         <block>
           Sequence("DoTraceFlush");
         </block>
       </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
       <!-- Add device-specific trace shutdown here. -->
-      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
-
 
 
 
