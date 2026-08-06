@@ -1,16 +1,50 @@
 <cmsis-pack-trace-scaffold use-case="legacy-to-full">
-  <!-- Extract existing device-specific behavior into DEVICE-EXTENSION markers. Do not retain legacy debugger-assumed CoreSight setup. -->
+  <!-- Move verified legacy device-specific code into ADD-DEVICE-SPECIFIC markers. Replace legacy debugger-assumed CoreSight configuration with selected component calls. -->
   <sequences traceSetup="full">
     <sequence name="TraceStart">
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START BEGIN -->
-      <!-- TODO: migrated device-specific setup calls -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE BEGIN -->
+      <!-- Add migrated device-specific setup here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE END -->
       <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
-      <!-- TODO: selected component Configure calls -->
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- Add selected CoreSight Configure calls guarded by these variables. -->
       <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
-    <sequence name="TraceCapture"><!-- Assemble as in full-from-scratch.xml. --></sequence>
-    <sequence name="TraceFlush"><!-- Assemble as in full-from-scratch.xml. --></sequence>
-    <sequence name="TraceStop"><!-- Assemble as in full-from-scratch.xml. --></sequence>
+    <sequence name="TraceCapture">
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE END -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
+      <!-- Add selected CoreSight Capture calls. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="DoTraceFlush">
+      <!-- Add only actual selected CoreSight Flush calls. Do not read a trace buffer here. -->
+    </sequence>
+    <sequence name="TraceFlush">
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <block>
+        Sequence("DoTraceFlush");
+      </block>
+      <!-- Add optional CoreSight read-buffer calls after the flush. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE END -->
+    </sequence>
+    <sequence name="TraceStop">
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <block>
+        Sequence("DoTraceFlush");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE BEGIN -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE END -->
+    </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
+
+
+

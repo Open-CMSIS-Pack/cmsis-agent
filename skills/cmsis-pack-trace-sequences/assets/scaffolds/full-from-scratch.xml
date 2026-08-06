@@ -1,31 +1,108 @@
 <cmsis-pack-trace-scaffold use-case="full-from-scratch">
   <sequences traceSetup="full">
     <sequence name="TraceStart">
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START BEGIN -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-START END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE BEGIN -->
+      <!-- Add device-specific trace pin, clock, or access-enable setup here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-START-HERE END -->
       <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
-      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Configure"); -->
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <control if="swoTrace != 0">
+        <block>
+          Sequence("CS_TPIU_0_Configure");
+        </block>
+      </control>
+      <control if="syncTrace != 0">
+        <block>
+          Sequence("CS_TPIU_0_Flush");
+          Sequence("CS_TPIU_0_Configure");
+          Sequence("CS_FUNNEL_0_Configure");
+          Sequence("CS_ETF_0_ConfigureHWFIFO");
+        </block>
+      </control>
+      <control if="bufferTrace != 0">
+        <block>
+          Sequence("CS_FUNNEL_0_Configure");
+          Sequence("CS_ETF_0_ConfigureCircularBuffer");
+        </block>
+      </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="TraceCapture">
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-CAPTURE BEGIN -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-CAPTURE END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE BEGIN -->
+      <!-- Add device-specific capture setup here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-CAPTURE-HERE END -->
       <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
-      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Capture"); -->
+      <block>
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <control if="syncTrace != 0">
+        <block>
+          Sequence("CS_TPIU_0_Capture");
+        </block>
+      </control>
+      <control if="bufferTrace != 0">
+        <block>
+          Sequence("CS_ETF_0_CaptureCircularBuffer");
+        </block>
+      </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="DoTraceFlush">
+      <block>
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <control if="syncTrace != 0">
+        <block>
+          Sequence("CS_TPIU_0_Flush");
+        </block>
+      </control>
+      <control if="bufferTrace != 0">
+        <block>
+          Sequence("CS_ETF_0_Flush");
+        </block>
+      </control>
     </sequence>
     <sequence name="TraceFlush">
       <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
-      <!-- TODO: Sequence("CS_<COMPONENT>_<INDEX>_Flush"); -->
+      <block>
+        __var bufferTrace = __traceout &amp; 0x4;
+        Sequence("DoTraceFlush");
+      </block>
+      <control if="bufferTrace != 0">
+        <block>
+          Sequence("CS_ETF_0_ReadBuffer");
+        </block>
+      </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-FLUSH BEGIN -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-FLUSH END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE BEGIN -->
+      <!-- Add device-specific post-flush work here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-FLUSH-HERE END -->
     </sequence>
     <sequence name="TraceStop">
       <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <block>
+        __var traceActive = __traceout &amp; 0x6;
+      </block>
+      <control if="traceActive != 0">
+        <block>
+          Sequence("DoTraceFlush");
+        </block>
+      </control>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-STOP BEGIN -->
-      <!-- CMSIS-PACK-TRACE: DEVICE-EXTENSION-STOP END -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE BEGIN -->
+      <!-- Add device-specific trace shutdown here. -->
+      <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-STOP-HERE END -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
+
+
+
+
+

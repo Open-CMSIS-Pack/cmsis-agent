@@ -23,7 +23,9 @@ Assemble modular CoreSight trace snippets into an existing PDSC. Read `reference
 6. Enforce order exactly:
    - `TraceStart` and `TraceCapture`: device extension calls, then CoreSight calls.
    - `TraceFlush` and `TraceStop`: CoreSight calls, then device extension calls.
-7. Do not invent register addresses, register values, funnel routes, timestamping, formatter settings, component ordering, or a dormant-state requirement. Honor the topology record's evidence-backed `debugconfig dormant` decision; return to `$cmsis-pack-debug-topology` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified topology. If an identified document cannot be downloaded, list its URL and retrieval issue in the trace assembly record, then ask the user to download it manually and copy it into the target workspace before using it as evidence.
+7. Preserve scaffold sequence boundaries, including helpers such as `DoTraceFlush`; do not flatten or inline them merely for presentation. Consolidate sequences only when it demonstrably reduces the context loaded for the task while preserving their call boundaries and behavior.
+8. Format generated XML for review: align matching XML tags, put C-like content on lines inside each `<block>`, indent it one level deeper than the tag, and use one semicolon-terminated statement per line. Keep XML entities intact.
+9. Do not invent register addresses, register values, funnel routes, timestamping, formatter settings, component ordering, or a dormant-state requirement. Honor the topology record's evidence-backed `debugconfig dormant` decision; return to `$cmsis-pack-debug-topology` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified topology. If an identified document cannot be downloaded, list its URL and retrieval issue in the trace assembly record, then ask the user to download it manually and copy it into the target workspace before using it as evidence.
 
 ## Deliverable and validation
 
