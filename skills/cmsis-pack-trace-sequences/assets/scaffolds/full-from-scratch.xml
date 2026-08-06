@@ -121,9 +121,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="DoTraceStart_Sync">
       <block>
@@ -131,9 +129,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="DoTraceStart_Buffer">
       <block>
@@ -141,9 +137,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="DoTraceCapture_SWO">
       <block>
@@ -151,9 +145,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
       <!-- No separate SWO capture operation. -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
     </sequence>
     <sequence name="DoTraceCapture_Sync">
       <block>
@@ -161,9 +153,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
     </sequence>
     <sequence name="DoTraceCapture_Buffer">
       <block>
@@ -171,9 +161,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
     </sequence>
     <sequence name="DoTraceFlush_SWO">
       <block>
@@ -181,9 +169,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <!-- No separate SWO flush operation. -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
     </sequence>
     <sequence name="DoTraceFlush_Sync">
       <block>
@@ -191,9 +177,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
     </sequence>
     <sequence name="DoTraceFlush_Buffer">
       <block>
@@ -201,9 +185,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
     </sequence>
     <sequence name="DoTraceReadBuffer">
       <block>
@@ -211,9 +193,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
     </sequence>
     <sequence name="DoTraceStop_SWO">
       <block>
@@ -221,9 +201,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
       <!-- Add selected SWO stop calls. -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
     </sequence>
     <sequence name="DoTraceStop_Sync">
       <block>
@@ -231,9 +209,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
       <!-- Add selected synchronous-trace stop calls; flushing already happened earlier. -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
     </sequence>
     <sequence name="DoTraceStop_Buffer">
       <block>
@@ -241,9 +217,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
       <!-- Add selected trace-buffer stop calls; flushing already happened earlier. -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
