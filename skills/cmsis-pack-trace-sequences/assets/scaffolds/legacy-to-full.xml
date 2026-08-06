@@ -56,15 +56,12 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
-      <block>
-        Sequence("DoTraceFlush");
-      </block>
+      <!-- Add selected CoreSight stop calls; flushing already happens in TraceFlush. -->
       <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
-
 
 

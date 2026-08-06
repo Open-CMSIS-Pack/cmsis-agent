@@ -7,29 +7,23 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific trace pin, clock, or access-enable setup here. -->
+      <!-- Add device-specific startup work here. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
-      <control if="swoTrace != 0">
+      <control if="swoTrace">
         <block>
-          Sequence("CS_TPIU_0_Configure");
+          Sequence("DoTraceStart_SWO");
         </block>
       </control>
-      <control if="syncTrace != 0">
+      <control if="syncTrace">
         <block>
-          Sequence("CS_TPIU_0_Flush");
-          Sequence("CS_TPIU_0_Configure");
-          Sequence("CS_FUNNEL_0_Configure");
-          Sequence("CS_ETF_0_ConfigureHWFIFO");
+          Sequence("DoTraceStart_Sync");
         </block>
       </control>
-      <control if="bufferTrace != 0">
+      <control if="bufferTrace">
         <block>
-          Sequence("CS_FUNNEL_0_Configure");
-          Sequence("CS_ETF_0_ConfigureCircularBuffer");
+          Sequence("DoTraceStart_Buffer");
         </block>
       </control>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
     </sequence>
     <sequence name="TraceCapture">
       <block>
@@ -38,20 +32,23 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific capture setup here. -->
+      <!-- Add device-specific capture work here. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
-      <control if="syncTrace != 0">
+      <control if="swoTrace">
         <block>
-          Sequence("CS_TPIU_0_Capture");
+          Sequence("DoTraceCapture_SWO");
         </block>
       </control>
-      <control if="bufferTrace != 0">
+      <control if="syncTrace">
         <block>
-          Sequence("CS_ETF_0_CaptureCircularBuffer");
+          Sequence("DoTraceCapture_Sync");
         </block>
       </control>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+      <control if="bufferTrace">
+        <block>
+          Sequence("DoTraceCapture_Buffer");
+        </block>
+      </control>
     </sequence>
     <sequence name="DoTraceFlush">
       <block>
@@ -59,14 +56,19 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <control if="syncTrace != 0">
+      <control if="swoTrace">
         <block>
-          Sequence("CS_TPIU_0_Flush");
+          Sequence("DoTraceFlush_SWO");
         </block>
       </control>
-      <control if="bufferTrace != 0">
+      <control if="syncTrace">
         <block>
-          Sequence("CS_ETF_0_Flush");
+          Sequence("DoTraceFlush_Sync");
+        </block>
+      </control>
+      <control if="bufferTrace">
+        <block>
+          Sequence("DoTraceFlush_Buffer");
         </block>
       </control>
     </sequence>
@@ -76,16 +78,14 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
       <block>
         Sequence("DoTraceFlush");
       </block>
-      <control if="bufferTrace != 0">
+      <control if="bufferTrace">
         <block>
-          Sequence("CS_ETF_0_ReadBuffer");
+          Sequence("DoTraceReadBuffer");
         </block>
       </control>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
       <!-- Add device-specific post-flush work here. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
@@ -96,20 +96,175 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
-      <control if="syncTrace || bufferTrace">
+      <control if="swoTrace">
         <block>
-          Sequence("DoTraceFlush");
+          Sequence("DoTraceStop_SWO");
         </block>
       </control>
-      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
+      <control if="syncTrace">
+        <block>
+          Sequence("DoTraceStop_Sync");
+        </block>
+      </control>
+      <control if="bufferTrace">
+        <block>
+          Sequence("DoTraceStop_Buffer");
+        </block>
+      </control>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific trace shutdown here. -->
+      <!-- Add device-specific shutdown work here. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
+    </sequence>
+    <sequence name="DoTraceStart_SWO">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
+      <block>
+        Sequence("CS_TPIU_0_Configure");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
+    </sequence>
+    <sequence name="DoTraceStart_Sync">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
+      <block>
+        Sequence("CS_TPIU_0_Flush");
+        Sequence("CS_TPIU_0_Configure");
+        Sequence("CS_FUNNEL_0_Configure");
+        Sequence("CS_ETF_0_ConfigureHWFIFO");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
+    </sequence>
+    <sequence name="DoTraceStart_Buffer">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START BEGIN -->
+      <block>
+        Sequence("CS_FUNNEL_0_Configure");
+        Sequence("CS_ETF_0_ConfigureCircularBuffer");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-START END -->
+    </sequence>
+    <sequence name="DoTraceCapture_SWO">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
+      <!-- No separate SWO capture operation. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="DoTraceCapture_Sync">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
+      <block>
+        Sequence("CS_TPIU_0_Capture");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="DoTraceCapture_Buffer">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE BEGIN -->
+      <block>
+        Sequence("CS_ETF_0_CaptureCircularBuffer");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-CAPTURE END -->
+    </sequence>
+    <sequence name="DoTraceFlush_SWO">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <!-- No separate SWO flush operation. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+    </sequence>
+    <sequence name="DoTraceFlush_Sync">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <block>
+        Sequence("CS_TPIU_0_Flush");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+    </sequence>
+    <sequence name="DoTraceFlush_Buffer">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <block>
+        Sequence("CS_ETF_0_Flush");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+    </sequence>
+    <sequence name="DoTraceReadBuffer">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH BEGIN -->
+      <block>
+        Sequence("CS_ETF_0_ReadBuffer");
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-FLUSH END -->
+    </sequence>
+    <sequence name="DoTraceStop_SWO">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <!-- Add selected SWO stop calls. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
+    </sequence>
+    <sequence name="DoTraceStop_Sync">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <!-- Add selected synchronous-trace stop calls; flushing already happened earlier. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
+    </sequence>
+    <sequence name="DoTraceStop_Buffer">
+      <block>
+        __var swoTrace = __traceout &amp; 0x1;
+        __var syncTrace = __traceout &amp; 0x2;
+        __var bufferTrace = __traceout &amp; 0x4;
+      </block>
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP BEGIN -->
+      <!-- Add selected trace-buffer stop calls; flushing already happened earlier. -->
+      <!-- CMSIS-PACK-TRACE: CORESIGHT-STOP END -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>
-
-
-
 
