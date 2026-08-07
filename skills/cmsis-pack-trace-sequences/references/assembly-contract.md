@@ -2,6 +2,14 @@
 
 Use the current Open-CMSIS-Pack *Debug Description* specification as the grammar authority. Its `Sequence("name")` function calls another debug access sequence; predefined sequence implementations in a PDSC override the debugger-provided behavior.
 
+## Contents
+
+- [Required recognizable output](#required-recognizable-output)
+- [Component selection and placement](#component-selection-and-placement)
+- [Standard component-operation routing](#standard-component-operation-routing)
+- [Component asset fidelity](#component-asset-fidelity)
+- [Structural and formatting gates](#structural-and-formatting-gates)
+
 ## Required recognizable output
 
 Maintain exactly one target `<debugvars>` element and one target `<sequences traceSetup="full">` element for each affected debug description. This skill always generates full trace setup: the PDSC sequences perform the trace sink and trace data-path setup rather than relying on debugger a-priori CoreSight configuration. Use the following marker comments verbatim:
@@ -26,6 +34,14 @@ TraceStop:    mode-specific CoreSight stop helpers -> ADD-DEVICE-SPECIFIC-HERE
 ```
 
 The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. `DoTraceFlush_<mode>` helpers are reusable from other verified sequences, but `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
+
+## Component selection and placement
+
+Map the selected device subtree, its processors, and every evidence-backed trace path. Group descendants with an identical verified device-level configuration and place shared `debugvars`, component sequences, scaffold calls, and extension placeholders at their topmost selected common level. Put only proven deviations on outer leaf variants. Omit a processor or path only when the user narrows scope or evidence proves it unavailable.
+
+Select one asset per required physical CoreSight instance. Omit unused assets, snippets, variables, and calls; merge every selected asset's `<debugvars>` contribution into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions. Whenever this adds a `<debugvars>` `__var`, suggest adding or updating the matching `.dbgconf` file with Configuration Wizard annotations. Include the variable name, default, and applicable scope; do not modify the `.dbgconf` file unless the user includes it in their confirmation.
+
+Number non-predefined sequences by component type from `0` in ascending verified base-address order and preserve existing numbers: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Rename every copied sequence and every `Sequence("...")` call consistently.
 
 ## Standard component-operation routing
 
@@ -70,6 +86,10 @@ Format generated sequence fragments for review: matching XML tags align; C-like 
 
 Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result.
 
+Put each high-level routing sequence's `__var` declarations in its opening `<block>`, before executable statements. These routing sequences are `TraceStart`, `TraceCapture`, `DoTraceFlush`, `TraceFlush`, `TraceStop`, and their `DoTrace*_<mode>` helpers; each begins with `swoTrace`, `syncTrace`, and `bufferTrace` definitions derived from `__traceout`. Component snippet sequences declare only the variables they use.
+
+When a retained scaffolding sequence has no C-like content other than its standard trace-mode `__var` declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`. Remove this comment when a component call or device-specific operation is added.
+
 Treat one-line `<block>` bodies and multiple C-like semicolon-terminated statements on one line as validation failures. Before handoff, validate XML/PDSC syntax and run:
 
 ```text
@@ -78,7 +98,9 @@ rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>
 rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>
 ```
 
-Inspect and resolve every match that is C-like sequence content. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
+Inspect and resolve every match that is C-like sequence content. Also inspect every retained scaffolding sequence that contains only its standard trace-mode `__var` declarations and require the empty-operation comment. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
+
+Do not invent register addresses, values, funnel routes, timestamping, formatter settings, component order, or a dormant-state requirement. Honor the topology record's evidence-backed `debugconfig dormant` decision; return to `$cmsis-pack-debug-description` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified topology.
 
 Write `.agent-artifacts/<pdsc-stem>.trace-sequences.md` at the project root. Record the selected device-tree scope, each PDSC placement and its applicable descendants, trace component instances, emitted sequence names, extension placeholders, sources, and validation result. Include a `Documents requiring user download` table with `title | URL | retrieval issue | requested workspace path` whenever an identified technical document cannot be downloaded. Ask the user to download and copy it into the target workspace, then inspect that local copy before relying on it.
 
