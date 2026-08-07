@@ -46,7 +46,7 @@ Evaluate the `debugconfig dormant` attribute explicitly. It is `false` by defaul
 
 Do not use `__` as a prefix for DFP-defined local sequence variables. The CMSIS-Pack specification reserves that convention for predefined variables and debugger-provided implementation locals.
 
-Before editing the PDSC, show the completed review record to the user. Apply only the facts the user confirms; record corrections and unanswered questions before setting `READY FOR TRACE`.
+Create and update the `.agent-artifacts/` review record without requesting confirmation; it is agent-owned working output. Before editing an existing user-owned PDSC or another existing user file, show the completed review record and obtain the user's confirmation. Apply only the confirmed facts; record corrections and unanswered questions before setting `READY FOR TRACE`.
 
 When a source document cannot be downloaded because of access control, licensing, network failure, an unsupported format, or another retrieval failure, add it to `Documents requiring user download`. Show the user the URL and ask them to download it manually and copy it into the target workspace. After the user supplies the local path, inspect that copy and update the evidence record; do not treat the URL alone as verified technical evidence.
 
