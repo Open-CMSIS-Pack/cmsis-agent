@@ -25,7 +25,7 @@ TraceFlush:   mode-specific CoreSight flush/read helpers -> ADD-DEVICE-SPECIFIC-
 TraceStop:    mode-specific CoreSight stop helpers -> ADD-DEVICE-SPECIFIC-HERE
 ```
 
-The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. Therefore `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
+The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. `DoTraceFlush_<mode>` helpers are reusable from other verified sequences, but `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
 
 ## Standard component-operation routing
 
@@ -35,7 +35,7 @@ Call a component operation only from the helper for its active trace mode:
 |---|---|---|
 | `Configure` | `DoTraceStart_<mode>` | Active path only |
 | `Capture` | `DoTraceCapture_<mode>` | Active path only |
-| `Flush` | `DoTraceFlush_<mode>` | Active path only; never call `TraceFlush` from a capture snippet |
+| `Flush` | `DoTraceFlush_<mode>` | Active path only; `TraceFlush` must never be called from a generated component or helper sequence |
 | `ReadBuffer` | `DoTraceReadBuffer` after `DoTraceFlush` | Trace-buffer path only |
 
 For every applicable start or capture path, call operations in trace-route order: first funnels, then other glue logic such as an ETF in hardware-FIFO mode, then the trace sink or output component.
@@ -47,6 +47,8 @@ For every applicable start or capture path, call operations in trace-route order
 | Trace buffer | Funnels on the buffer route, then applicable glue, then the selected buffer sink: ETB, ETF in circular-buffer mode, ETR, or another verified buffer variant. |
 
 Do not emit a component call merely because its snippet exists. The verified topology determines its trace mode and presence. For shutdown or other operations not listed above, use only the component-specific order supported by evidence.
+
+`TraceFlush` is the debugger-facing top-level orchestration sequence and is never a callable component/helper dependency. A `DoTraceFlush_<mode>` helper may be called from another sequence, including a capture sequence, when the verified mode-specific operation requires it. The sole lifecycle exception is the stop path: do not call it from `TraceStop` or `DoTraceStop_<mode>` because the debugger has already invoked `TraceFlush`.
 
 Every component snippet must use a numeric `instance_suffix`, an optional `<debugvars>` contribution, and one or more sequence bodies. Number instances of each component type from `0` in ascending verified base-address order: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Preserve prior numbering when updating an existing PDSC. Rename its sequence names and `Sequence("...")` calls before integration using that suffix. Do not merge duplicate variables silently: same name requires identical documented meaning and value, otherwise stop for user direction.
 
