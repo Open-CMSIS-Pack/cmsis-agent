@@ -56,6 +56,12 @@ For a selected device subtree, place a configuration shared by all selected desc
 
 The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Fill every `TODO` only from the topology record and authoritative device/CoreSight documentation.
 
+## Component asset fidelity
+
+A selected component asset is the source template for its operations, not an illustrative example. Copy its comments, `__var` declarations, checks, control blocks, waits, cleanup, and sequence bodies into the generated PDSC. Do not handwrite a replacement sequence when that selected asset provides the operation.
+
+For every selected asset, add a line-level merge checklist to `.agent-artifacts/<pdsc-stem>.trace-sequences.md` that identifies every retained, changed, and omitted line or block. Every change or omission requires a documented device-specific evidence reason. Before handoff, compare each generated fragment to the corresponding selected asset after normalizing approved instance suffixes and evidence-backed substituted values. Flag a missing comment, variable declaration, control block, wait, or cleanup as a validation failure unless the checklist records its evidence-backed omission. Never simplify for brevity, even when the XML is schema-valid.
+
 Format generated sequence fragments for review: matching XML tags align; C-like text starts on the line after `<block>`, is indented one level inside it, and uses one statement per semicolon-terminated line. Do not split XML entities such as `&amp;`.
 
 ## Structural and formatting gates
