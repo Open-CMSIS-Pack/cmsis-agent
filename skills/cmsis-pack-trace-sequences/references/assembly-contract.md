@@ -23,6 +23,8 @@ TraceFlush:   mode-specific CoreSight flush/read helpers -> ADD-DEVICE-SPECIFIC-
 TraceStop:    mode-specific CoreSight stop helpers -> ADD-DEVICE-SPECIFIC-HERE
 ```
 
+The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. Therefore `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
+
 ## Standard component-operation routing
 
 Call a component operation only from the helper for its active trace mode:
