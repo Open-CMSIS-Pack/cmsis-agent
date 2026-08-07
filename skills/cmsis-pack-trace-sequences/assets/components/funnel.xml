@@ -6,7 +6,7 @@
     __var FUNNEL___INSTANCE_INDEX___AP         = 0x00000000;
     __var FUNNEL___INSTANCE_INDEX___INPUT_MASK = 0x00000000; // Mask of trace inputs connected to funnel, enable all valid inputs by default.
   </debugvars>
-  <sequence name="CS_FUNNEL___INSTANCE_INDEX_____INSTANCE_INDEX___Configure">
+  <sequence name="CS_FUNNEL___INSTANCE_INDEX___Configure">
     <block>
       __var swoTrace    = __traceout &amp; 0x1;
       __var syncTrace   = __traceout &amp; 0x2;
@@ -39,5 +39,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 

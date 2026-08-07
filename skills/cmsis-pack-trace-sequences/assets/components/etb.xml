@@ -6,7 +6,7 @@
     __var ETB___INSTANCE_INDEX___AP            = 0x00000000;
     __var ETB___INSTANCE_INDEX___TRIGGER_COUNT = 0x0;
   </debugvars>
-  <sequence name="CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Configure">
+  <sequence name="CS_ETB___INSTANCE_INDEX___Configure">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -39,7 +39,7 @@
       Message(0, "End CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Configure @0x%08X, AP 0x%08X", ETB___INSTANCE_INDEX___ADDRESS, ETB___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Capture">
+  <sequence name="CS_ETB___INSTANCE_INDEX___Capture">
     <block>
       // Helper variables
       __var ffcrValue = 0x00000000;
@@ -48,7 +48,7 @@
       Message(0, "Begin CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Capture @0x%08X, AP 0x%08X", ETB___INSTANCE_INDEX___ADDRESS, ETB___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
-      Sequence("TraceFlush");
+      Sequence("DoTraceFlush");
 
       __ap = ETB___INSTANCE_INDEX___AP; // Set AP
       ffcrValue  = Read32(ETB___INSTANCE_INDEX___ADDRESS + 0x304);
@@ -63,7 +63,7 @@
       Message(0, "End CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Capture @0x%08X, AP 0x%08X", ETB___INSTANCE_INDEX___ADDRESS, ETB___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETB___INSTANCE_INDEX_____INSTANCE_INDEX___Flush">
+  <sequence name="CS_ETB___INSTANCE_INDEX___Flush">
     <block>
       // Helper variables
       __var savedAP     = __ap;
@@ -115,5 +115,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 

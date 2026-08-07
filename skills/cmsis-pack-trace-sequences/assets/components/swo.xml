@@ -5,7 +5,7 @@
     __var SWO___INSTANCE_INDEX___ADDRESS     = 0xE0040000;  // Default TPIU Location for single-core systems
     __var SWO___INSTANCE_INDEX___AP          = 0x00000000;
   </debugvars>
-  <sequence name="CS_SWO___INSTANCE_INDEX_____INSTANCE_INDEX___Configure">
+  <sequence name="CS_SWO___INSTANCE_INDEX___Configure">
     <block>
       // Helper variables
       __var savedAP   = __ap;
@@ -35,5 +35,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 

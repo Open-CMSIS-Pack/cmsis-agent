@@ -31,7 +31,7 @@
     __var CATU___INSTANCE_INDEX___AXI_CTRL = (((ETR___INSTANCE_INDEX___AXI_CTL &gt;&gt; 16) &amp; 0xF) &lt;&lt; 4) | (ETR___INSTANCE_INDEX___AXI_CTL &amp; 0x3); // [7:4]: ARCACHE, [1:0]: ARPROT (Secure|Privileged)
     __var CATU___INSTANCE_INDEX___IRQEN               = 0x00000000;            // [0]: Enable/Disable
   </debugvars>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureETRCircularBuffer">
+  <sequence name="CS_ETR___INSTANCE_INDEX___ConfigureCircularBuffer">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -73,7 +73,7 @@
       Message(0, "End CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureETRCircularBuffer @0x%08X, AP 0x%08X", ETR___INSTANCE_INDEX___ADDRESS, ETR___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCATU" info="Scatterlist expected to be programmed separately, too complex">
+  <sequence name="CS_CATU___INSTANCE_INDEX___Configure" info="Scatterlist expected to be programmed separately, too complex">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -117,7 +117,7 @@
       Message(0, "End CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCATU @0x%08X, AP 0x%08X", CATU___INSTANCE_INDEX___ADDRESS, CATU___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureETRCircularBuffer">
+  <sequence name="CS_ETR___INSTANCE_INDEX___CaptureCircularBuffer">
     <block>
       // Helper variables
       __var ffcrValue = 0x00000000;
@@ -126,7 +126,7 @@
       Message(0, "Begin CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureETRCircularBuffer @0x%08X, AP 0x%08X", ETR___INSTANCE_INDEX___ADDRESS, ETR___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
-      Sequence("TraceFlush");
+      Sequence("DoTraceFlush");
 
       __ap = ETR___INSTANCE_INDEX___AP; // Set AP
       ffcrValue  = Read32(ETR___INSTANCE_INDEX___ADDRESS + 0x304);
@@ -149,7 +149,7 @@
       Message(0, "End CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureETRCircularBuffer @0x%08X, AP 0x%08X", ETR___INSTANCE_INDEX___ADDRESS, ETR___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCATU" info="Restart address translation unit">
+  <sequence name="CS_CATU___INSTANCE_INDEX___Capture" info="Restart address translation unit">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -158,7 +158,7 @@
       Message(0, "Begin CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCATU @0x%08X, AP 0x%08X", CATU___INSTANCE_INDEX___ADDRESS, CATU___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
-      Sequence("TraceFlush");
+      Sequence("DoTraceFlush");
 
       __ap = CATU___INSTANCE_INDEX___AP; // Set AP
 
@@ -178,7 +178,7 @@
       Message(0, "End CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCATU @0x%08X, AP 0x%08X", CATU___INSTANCE_INDEX___ADDRESS, CATU___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___FlushETR">
+  <sequence name="CS_ETR___INSTANCE_INDEX___Flush">
     <block>
       // Helper variables
       __var savedAP     = __ap;
@@ -229,7 +229,7 @@
       Message(0, "End CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___FlushETR @0x%08X, AP 0x%08X", ETR___INSTANCE_INDEX___ADDRESS, ETR___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETR___INSTANCE_INDEX___CATU___INSTANCE_INDEX_____INSTANCE_INDEX___FlushCATU" info="Flush any outstanding memory transactions">
+  <sequence name="CS_CATU___INSTANCE_INDEX___Flush" info="Flush any outstanding memory transactions">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -254,5 +254,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 

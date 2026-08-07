@@ -5,7 +5,7 @@
     __var TPIU___INSTANCE_INDEX___ADDRESS     = 0xE0040000;  // Default TPIU Location for single-core systems
     __var TPIU___INSTANCE_INDEX___AP          = 0x00000000;
   </debugvars>
-  <sequence name="CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Configure">
+  <sequence name="CS_TPIU___INSTANCE_INDEX___Configure">
     <block>
       __var swoTrace    = __traceout &amp; 0x1;
       __var syncTrace   = __traceout &amp; 0x2;
@@ -46,7 +46,7 @@
       Message(0, "End CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Configure @0x%08X, AP 0x%08X", TPIU___INSTANCE_INDEX___ADDRESS, TPIU___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Capture">
+  <sequence name="CS_TPIU___INSTANCE_INDEX___Capture">
     <block>
       // Helper variables
       __var LAR_KEY   = 0xC5ACCE55;
@@ -55,7 +55,7 @@
       Message(0, "Begin CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Capture @0x%08X, AP 0x%08X", TPIU___INSTANCE_INDEX___ADDRESS, TPIU___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
-      Sequence("TraceFlush");
+      Sequence("DoTraceFlush");
 
       // Configure TPIU if needed and enable formatter
       __ap = TPIU___INSTANCE_INDEX___AP; // Set AP
@@ -66,7 +66,7 @@
       Message(0, "End CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Capture @0x%08X, AP 0x%08X", TPIU___INSTANCE_INDEX___ADDRESS, TPIU___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Flush">
+  <sequence name="CS_TPIU___INSTANCE_INDEX___Flush">
     <block>
       // Helper variables
       __var savedAP     = __ap;
@@ -114,5 +114,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 

@@ -5,7 +5,7 @@
     __var ETF___INSTANCE_INDEX___ADDRESS       = 0x00000000;
     __var ETF___INSTANCE_INDEX___AP            = 0x00000000;
   </debugvars>
-  <sequence name="CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO">
+  <sequence name="CS_ETF___INSTANCE_INDEX___ConfigureHWFIFO">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -38,7 +38,7 @@
       Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCircularBuffer">
+  <sequence name="CS_ETF___INSTANCE_INDEX___ConfigureCircularBuffer">
     <block>
       // Helper variables
       __var savedAP = __ap;
@@ -74,7 +74,7 @@
       Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCircularBuffer">
+  <sequence name="CS_ETF___INSTANCE_INDEX___CaptureCircularBuffer">
     <block>
       // Helper variables
       __var ffcrValue = 0x00000000;
@@ -84,7 +84,7 @@
       Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
-      Sequence("TraceFlush");
+      Sequence("DoTraceFlush");
 
       __ap = ETF___INSTANCE_INDEX___AP; // Set AP
       ffcrValue  = Read32(ETF___INSTANCE_INDEX___ADDRESS + 0x304);
@@ -99,7 +99,7 @@
       Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Flush">
+  <sequence name="CS_ETF___INSTANCE_INDEX___Flush">
     <block>
       // Helper variables
       __var savedAP     = __ap;
@@ -150,7 +150,7 @@
       Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Flush @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
-  <sequence name="CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ReadBuffer">
+  <sequence name="CS_ETF___INSTANCE_INDEX___ReadBuffer">
     <block>
       // Helper variables
       __var savedAP       = __ap;
@@ -211,5 +211,4 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
 
