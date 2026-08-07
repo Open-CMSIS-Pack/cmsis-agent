@@ -1,0 +1,25 @@
+---
+name: cmsis-pack-debug-sequences
+description: Add evidence-backed, device-specific non-trace CMSIS-Pack Debug Description sequences to an existing Device Family Pack PDSC. Use for device unlock, debug-port setup, reset, bootloader, flash, debug-authentication, multi-core startup, or other predefined/custom debug access sequences; do not use for CoreSight trace setup.
+---
+
+# CMSIS-Pack device debug sequences
+
+Add device-specific debug access sequences to an existing PDSC without generating trace setup. This skill is independent of `$cmsis-pack-trace-sequences`; neither skill is a prerequisite for the other.
+
+## Workflow
+
+1. Find the target PDSC, selected family/subFamily/device/variant scope, affected processors, existing non-trace `<sequences>`, and `.agent-artifacts/<pdsc-stem>.debug-topology.md` from `$cmsis-pack-debug-description`. Do not create a new DFP. Do not alter `TraceStart`, `TraceCapture`, `TraceFlush`, `TraceStop`, or trace-specific helpers; direct that work to `$cmsis-pack-trace-sequences`.
+2. Reuse the debug-description topology record as input: cross-check its selected scope, processors, DP/AP/APID mappings, inherited definitions, and documented device-specific behavior. Create and update a separate `.agent-artifacts/<pdsc-stem>.debug-sequences.md` record for this skill. It must reference the topology record and contain the selected scope, processors, existing sequence inheritance, proposed sequence names, PDSC placement and descendants, sequence evidence, default-implementation provenance, and open questions. Agent-artifact files may be updated without user confirmation. If the topology record is absent or insufficient for the required connection facts, direct the user to `$cmsis-pack-debug-description`.
+3. Browse the current official Open-CMSIS-Pack *Debug Description* specification and relevant linked pages before implementing. Use the specification as the authority for XML grammar, predefined sequence names, execution context, and default implementations. Search device documentation, supplied links, vendor packs, SVDs, debug scripts, and source code for device-specific facts.
+4. Override a predefined sequence only when verified device behavior requires it. When an override is needed, obtain the current default implementation from the official specification—not from memory—and copy its complete sequence structure, comments, variables, checks, waits, cleanup, and control blocks before applying the evidence-backed device changes. Do not use config snippets or handwritten abbreviated replacements. Record the specification URL, version/revision, and section for every copied default.
+5. For custom sequences, use the specification's sequence grammar and document every register address, value, delay, condition, and call with evidence. Do not invent reset, unlock, debug-authentication, boot, flash, or processor-control behavior.
+6. Analyze every affected CPU connection before tailoring a sequence. Compare `Pname`, processor-to-DP/AP/APID mapping, and the initial `__ap`/`__apid` context. Use a shared sequence with connection-based dispatch only when the remaining implementation is demonstrably identical. Prefer `Pname`-specific definitions when implementation differs beyond that initial connection mapping—for example, when an address, reset vector, register operation, timeout, control flow, or cleanup differs.
+7. Place a definition shared by all selected descendants at their topmost common device-tree level. Place only proven deviations at outer leaf variants. Preserve unrelated PDSC content and all trace configuration.
+8. Reuse the XML output formatting gates from `$cmsis-pack-trace-sequences`: align matching tags; place C-like statements on lines inside `<block>`; indent them one level deeper than the tag; use one semicolon-terminated statement per line; and preserve XML entities. Treat a one-line `<block>` body or multiple C-like statements on one line as a validation failure. Do not compress or partially generate required sequence structure when context or time is tight.
+
+## Confirmation and completion
+
+Before changing an existing user-owned PDSC or other user file, present the sequence record, its referenced topology record, and the proposed XML and obtain user confirmation. After confirmation, immediately apply and validate the complete non-trace sequence change in the same turn. Do not stop after updating the evidence record unless missing evidence or a validation failure blocks completion.
+
+Reuse the trace skill's final XML checks: validate XML/PDSC syntax with the available toolchain, run `rg -n '<block>.*;</block>' <target.pdsc>` and `rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>`, and inspect and resolve every match that is C-like sequence content. Do not trade required sequence structure for schema validity or brevity. For each overridden predefined sequence, compare the generated sequence with the current specification default and record every evidence-backed difference. Report changed sequences, per-CPU applicability, sources, PDSC placement, and validation results.
