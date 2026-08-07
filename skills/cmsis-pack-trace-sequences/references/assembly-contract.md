@@ -58,6 +58,19 @@ The XML assets use a wrapper element only to remain well-formed standalone files
 
 Format generated sequence fragments for review: matching XML tags align; C-like text starts on the line after `<block>`, is indented one level inside it, and uses one statement per semicolon-terminated line. Do not split XML entities such as `&amp;`.
 
+## Structural and formatting gates
+
+Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result.
+
+Treat one-line `<block>` bodies and multiple C-like semicolon-terminated statements on one line as validation failures. Before handoff, validate XML/PDSC syntax and run:
+
+```text
+rg -n '<block>.*;</block>' <target.pdsc>
+rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>
+```
+
+Inspect and resolve every match that is C-like sequence content. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
+
 Write `.agent-artifacts/<pdsc-stem>.trace-sequences.md` at the project root. Record the selected device-tree scope, each PDSC placement and its applicable descendants, trace component instances, emitted sequence names, extension placeholders, sources, and validation result. Include a `Documents requiring user download` table with `title | URL | retrieval issue | requested workspace path` whenever an identified technical document cannot be downloaded. Ask the user to download and copy it into the target workspace, then inspect that local copy before relying on it.
 
 `.agent-artifacts/` files are agent-owned and may be created or updated without user confirmation. Before changing an existing user-owned PDSC or another existing user file, present the proposed change and obtain user confirmation.
