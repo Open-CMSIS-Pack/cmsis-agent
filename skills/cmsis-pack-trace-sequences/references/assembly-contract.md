@@ -14,7 +14,7 @@ Trace setup is device-level by default. Unless the user explicitly narrows scope
 <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
 ```
 
-The `ADD-DEVICE-SPECIFIC-HERE` pair delimits user-maintained device work. The single CoreSight insertion marker belongs in a mode-specific `DoTrace*` helper, whose name identifies the phase and trace mode; do not add redundant CoreSight begin/end wrappers.
+The `ADD-DEVICE-SPECIFIC-HERE` pair delimits user-maintained device work and remains in generated PDSC XML. The single CoreSight insertion marker belongs in a mode-specific `DoTrace*` helper, whose name identifies the phase and trace mode; it is scaffold-only and must be removed after selected CoreSight calls replace it in generated PDSC XML. Do not add redundant CoreSight begin/end wrappers.
 
 The markers define the required order:
 
@@ -67,6 +67,7 @@ Treat one-line `<block>` bodies and multiple C-like semicolon-terminated stateme
 ```text
 rg -n '<block>.*;</block>' <target.pdsc>
 rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>
+rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>
 ```
 
 Inspect and resolve every match that is C-like sequence content. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
