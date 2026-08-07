@@ -6,6 +6,8 @@ Use the current Open-CMSIS-Pack *Debug Description* specification as the grammar
 
 Maintain exactly one target `<debugvars>` element and one target `<sequences traceSetup="full">` element for each affected debug description. This skill always generates full trace setup: the PDSC sequences perform the trace sink and trace data-path setup rather than relying on debugger a-priori CoreSight configuration. Use the following marker comments verbatim:
 
+Trace setup is device-level by default. Unless the user explicitly narrows scope, assemble it for all processors and all evidence-backed trace paths available in the selected device subtree; do not create separate default configurations merely because a device has multiple CPUs.
+
 ```xml
 <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
 <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->

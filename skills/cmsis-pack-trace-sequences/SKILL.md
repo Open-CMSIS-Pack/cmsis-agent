@@ -5,17 +5,18 @@ description: Add modular, evidence-backed CoreSight trace sequences to an existi
 
 # CMSIS-Pack trace sequences
 
-Assemble modular CoreSight trace snippets into an existing PDSC. Read `references/component-index.md` first, then only the selected component assets. Use `assets/scaffolds/full-from-scratch.xml` for new full-mode sequences; read `references/legacy-to-full-migration.md` and use `assets/scaffolds/legacy-to-full.xml` when converting legacy mode.
+Assemble modular CoreSight trace snippets into an existing PDSC. Read `references/component-index.md` first, then only the selected component assets at the skill-root-relative paths listed there (for example, `assets/components/etf.xml`). Use `assets/scaffolds/full-from-scratch.xml` for new full-mode sequences; read `references/legacy-to-full-migration.md` and use `assets/scaffolds/legacy-to-full.xml` when converting legacy mode.
 
 ## Preconditions
 
 1. Find the target PDSC, selected family/subFamily/device/variant scope, and its matching `.agent-artifacts/<pdsc-stem>.debug-topology.md` review record.
 2. Require `Status: READY FOR TRACE`. Cross-check its component instances, addresses, DP/AP paths, recorded placement scope, and explicit `debugconfig`/`debug` elements against the PDSC. If the record is absent, blocked, stale, or insufficient for the requested path, stop and direct the user to `$cmsis-pack-debug-topology`.
 3. Generate and maintain the target `<sequences traceSetup="full">` configuration. Do not generate `legacy` trace setup; if the existing PDSC declares `legacy`, report that it will be converted to `full` as part of the trace change.
+4. Treat trace setup as device-level by default, not CPU-level. Unless the user explicitly narrows the scope, consider all processors in the selected device subtree and every evidence-backed trace path the device supports, including SWO, synchronous trace, and trace-buffer variants.
 
 ## Assembly rules
 
-1. Map the selected device subtree and group descendants with an identical verified trace configuration. Emit each shared configuration at the topmost selected tree level common to that group. Emit only differing snippets, variables, scaffold calls, or extension placeholders on outer leaf variants; do not copy an identical full configuration to each variant.
+1. Map the selected device subtree, all of its processors, and every evidence-backed trace path. Group descendants with an identical verified device-level trace configuration. Emit each shared configuration at the topmost selected tree level common to that group. Emit only differing snippets, variables, scaffold calls, or extension placeholders on outer leaf variants; do not copy an identical full configuration to each variant. Omit a processor or trace path only when the user explicitly narrows scope or evidence shows that it is unavailable.
 2. Select one component asset per physical CoreSight instance that is required by the verified trace path. Keep the result minimal: omit unused assets, snippets, variables, and calls; copy each required asset's `<debugvars>` contributions into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions.
 3. Rename every copied non-predefined sequence with a numeric component-instance suffix, for example `CS_TPIU_0_Enable`, `CS_TPIU_1_Enable`. Number instances of each component type from `0` in ascending verified base-address order, and preserve those numbers on later updates. Update every `Sequence("...")` call accordingly.
 4. Copy sequence bodies into the PDSC and use the scaffold to call them from the relevant predefined sequence. Never emit an unresolved generic sequence name shared by two instances.
