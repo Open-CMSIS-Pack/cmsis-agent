@@ -52,6 +52,7 @@
       // Helper variables
       __var LAR_KEY   = 0xC5ACCE55;
       __var savedAP = __ap;
+      __var ffcrValue = 0x00000000;
 
       Message(0, "Begin CS_TPIU___INSTANCE_INDEX_____INSTANCE_INDEX___Capture @0x%08X, AP 0x%08X", TPIU___INSTANCE_INDEX___ADDRESS, TPIU___INSTANCE_INDEX___AP);
 
