@@ -145,7 +145,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- No separate SWO capture operation. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceCapture_Sync">
       <block>
@@ -169,7 +169,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- No separate SWO flush operation. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceFlush_Sync">
       <block>
@@ -201,7 +201,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- Add selected SWO stop calls. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceStop_Sync">
       <block>
@@ -209,7 +209,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- Add selected synchronous-trace stop calls; flushing already happened earlier. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceStop_Buffer">
       <block>
@@ -217,7 +217,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- Add selected trace-buffer stop calls; flushing already happened earlier. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>

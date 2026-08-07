@@ -143,7 +143,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- No separate SWO capture operation. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceCapture_Sync">
       <block>
@@ -167,7 +167,7 @@
         __var syncTrace = __traceout &amp; 0x2;
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
-      <!-- No separate SWO flush operation. -->
+      <!-- No trace operation is required for this mode. -->
     </sequence>
     <sequence name="DoTraceFlush_Sync">
       <block>
