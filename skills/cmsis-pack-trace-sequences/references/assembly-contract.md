@@ -1,20 +1,6 @@
 # Trace assembly contract
 
-Use the current Open-CMSIS-Pack *Debug Description* specification as the grammar authority. Its `Sequence("name")` function calls another debug access sequence; predefined sequence implementations in a PDSC override the debugger-provided behavior.
-
-## Contents
-
-- [Required recognizable output](#required-recognizable-output)
-- [Component selection and placement](#component-selection-and-placement)
-- [Standard component-operation routing](#standard-component-operation-routing)
-- [Component asset fidelity](#component-asset-fidelity)
-- [Structural and formatting gates](#structural-and-formatting-gates)
-
-## Required recognizable output
-
-Maintain exactly one target `<debugvars>` element and one target `<sequences traceSetup="full">` element for each affected debug description. This skill always generates full trace setup: the PDSC sequences perform the trace sink and trace data-path setup rather than relying on debugger a-priori CoreSight configuration. Use the following marker comments verbatim:
-
-Trace setup is device-level by default. Unless the user explicitly narrows scope, assemble it for all processors and all evidence-backed trace paths available in the selected device subtree; do not create separate default configurations merely because a device has multiple CPUs.
+Maintain one target `<debugvars>` and one `<sequences traceSetup="full">` for each affected debug description. Use full trace setup; PDSC sequences must configure the sink and trace data path. Retain these user-maintained extension markers verbatim:
 
 ```xml
 <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
@@ -22,88 +8,46 @@ Trace setup is device-level by default. Unless the user explicitly narrows scope
 <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
 ```
 
-The `ADD-DEVICE-SPECIFIC-HERE` pair delimits user-maintained device work and remains in generated PDSC XML. The single CoreSight insertion marker belongs in a mode-specific `DoTrace*` helper, whose name identifies the phase and trace mode; it is scaffold-only and must be removed after selected CoreSight calls replace it in generated PDSC XML. Do not add redundant CoreSight begin/end wrappers.
-
-The markers define the required order:
+The `ADD-DEVICE-SPECIFIC-HERE` pair remains in generated XML. Put the single scaffold-only insertion marker in the relevant mode-specific `DoTrace*` helper and remove it after adding selected calls. Do not add other CoreSight wrappers. Keep this order:
 
 ```text
-TraceStart:   ADD-DEVICE-SPECIFIC-HERE -> mode-specific CoreSight start helpers
-TraceCapture: ADD-DEVICE-SPECIFIC-HERE -> mode-specific CoreSight capture helpers
-TraceFlush:   mode-specific CoreSight flush/read helpers -> ADD-DEVICE-SPECIFIC-HERE
-TraceStop:    mode-specific CoreSight stop helpers -> ADD-DEVICE-SPECIFIC-HERE
+TraceStart:   device extension -> mode-specific CoreSight start helpers
+TraceCapture: device extension -> mode-specific CoreSight capture helpers
+TraceFlush:   mode-specific CoreSight flush/read helpers -> device extension
+TraceStop:    mode-specific CoreSight stop helpers -> device extension
 ```
 
-The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. `DoTraceFlush_<mode>` helpers are reusable from other verified sequences, but `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
+The debugger flushes before stopping. `TraceStop` and `DoTraceStop_<mode>` must not call `DoTraceFlush` or `DoTraceFlush_<mode>`.
 
-## Component selection and placement
+## Component selection and routing
 
-Map the selected device subtree, its processors, and every evidence-backed trace path. Group descendants with an identical verified device-level configuration and place shared `debugvars`, component sequences, scaffold calls, and extension placeholders at their topmost selected common level. Put only proven deviations on outer leaf variants. Omit a processor or path only when the user narrows scope or evidence proves it unavailable.
+Select one asset per required physical CoreSight instance. Merge each selected asset's `debugvars` contribution into the target's single `<debugvars>`; reject a conflicting duplicate variable. Number component sequences by type from `0` in ascending evidenced base-address order (for example, `CS_ETF_0_*`) and preserve existing numbering. Rename every copied sequence and `Sequence("...")` call consistently.
 
-Select one asset per required physical CoreSight instance. Omit unused assets, snippets, variables, and calls; merge every selected asset's `<debugvars>` contribution into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions. Whenever this adds a `<debugvars>` `__var`, suggest adding or updating the matching `.dbgconf` file with Configuration Wizard annotations. Include the variable name, default, and applicable scope; do not modify the `.dbgconf` file unless the user includes it in their confirmation.
-
-Number non-predefined sequences by component type from `0` in ascending verified base-address order and preserve existing numbers: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Rename every copied sequence and every `Sequence("...")` call consistently.
-
-## Standard component-operation routing
-
-Call a component operation only from the helper for its active trace mode:
+Use a component operation only from the helper for its active mode:
 
 | Operation | Helper destination | Applies to |
 |---|---|---|
 | `Configure` | `DoTraceStart_<mode>` | Active path only |
 | `Capture` | `DoTraceCapture_<mode>` | Active path only |
-| `Flush` | `DoTraceFlush_<mode>` | Active path only; `TraceFlush` must never be called from a generated component or helper sequence |
+| `Flush` | `DoTraceFlush_<mode>` | Active path only; never call `TraceFlush` from generated component/helper code |
 | `ReadBuffer` | `DoTraceReadBuffer` after `DoTraceFlush` | Trace-buffer path only |
 
-For every applicable start or capture path, call operations in trace-route order: first funnels, then other glue logic such as an ETF in hardware-FIFO mode, then the trace sink or output component.
+For each start/capture route, call funnels first, then route glue (for example an ETF in hardware-FIFO mode), then the sink/output component. Use only the evidenced path:
 
-| Trace mode | Applicable component route |
+| Trace mode | Route |
 |---|---|
-| SWO | Funnels on the SWO route, then either a standalone SWO component or a Cortex-M TPIU used in SWO mode. |
-| Sync | Funnels on the synchronous route, then applicable glue such as an ETF in hardware-FIFO mode, then the synchronous TPIU trace port. |
-| Trace buffer | Funnels on the buffer route, then applicable glue, then the selected buffer sink: ETB, ETF in circular-buffer mode, ETR, or another verified buffer variant. |
+| SWO | Route funnels, then SWO or a Cortex-M TPIU in SWO mode. |
+| Sync | Route funnels, applicable glue, then the synchronous TPIU port. |
+| Trace buffer | Route funnels, applicable glue, then ETB, circular ETF, ETR, or another verified sink. |
 
-Do not emit a component call merely because its snippet exists. The verified topology determines its trace mode and presence. For shutdown or other operations not listed above, use only the component-specific order supported by evidence.
+`TraceFlush` is debugger-facing and is never a helper dependency. A `DoTraceFlush_<mode>` helper may be reused only when the evidenced operation requires it, never from the stop path. For a non-standard component role/order, call it from the device-extension region and exclude it from standard helpers so it is not operated twice.
 
-`TraceFlush` is the debugger-facing top-level orchestration sequence and is never a callable component/helper dependency. A `DoTraceFlush_<mode>` helper may be called from another sequence, including a capture sequence, when the verified mode-specific operation requires it. The sole lifecycle exception is the stop path: do not call it from `TraceStop` or `DoTraceStop_<mode>` because the debugger has already invoked `TraceFlush`.
+## Asset fidelity and structural gates
 
-Every component snippet must use a numeric `instance_suffix`, an optional `<debugvars>` contribution, and one or more sequence bodies. Number instances of each component type from `0` in ascending verified base-address order: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Preserve prior numbering when updating an existing PDSC. Rename its sequence names and `Sequence("...")` calls before integration using that suffix. Do not merge duplicate variables silently: same name requires identical documented meaning and value, otherwise stop for user direction.
+Copy a selected asset's comments, declarations, checks, control blocks, waits, cleanup, and sequence bodies; it is a source template, not an example. Copy only its child `debugvars`/`sequence` elements, never its standalone wrapper. Fill `TODO`s solely from the topology record and authoritative device/CoreSight documentation.
 
-When a verified device-specific trace design uses a CoreSight component in a non-standard role or order, its snippet sequences may be called from the applicable `ADD-DEVICE-SPECIFIC-HERE` region. Exclude those operations from the standard mode-specific CoreSight helper path so the component is not configured, captured, flushed, or stopped twice.
+Write `.agent-artifacts/<pdsc-stem>.trace-sequences.md` listing scope, PDSC placement/applicability, selected instances, emitted sequences, extension placeholders, sources, omissions/changes, and validation. For each selected asset, record every retained, changed, or omitted line/block and its device-specific evidence reason. After normalizing approved suffixes and values, compare the generated fragment with the asset; an undocumented missing comment, declaration, control block, wait, or cleanup is a validation failure.
 
-For a selected device subtree, place a configuration shared by all selected descendants on the topmost selected common level. Put only specializations/deviations on outer leaf variants. The same placement rule applies to `<debugvars>`, component sequence bodies, scaffold calls, and device-extension placeholders.
+Before editing, select the scaffold and retain every required top-level sequence and applicable `DoTrace*_<mode>` helper with its opening trace-mode variable block. Do not flatten helpers. When a retained helper has only standard trace-mode declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`.
 
-The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Fill every `TODO` only from the topology record and authoritative device/CoreSight documentation.
-
-## Component asset fidelity
-
-A selected component asset is the source template for its operations, not an illustrative example. Copy its comments, `__var` declarations, checks, control blocks, waits, cleanup, and sequence bodies into the generated PDSC. Do not handwrite a replacement sequence when that selected asset provides the operation.
-
-For every selected asset, add a line-level merge checklist to `.agent-artifacts/<pdsc-stem>.trace-sequences.md` that identifies every retained, changed, and omitted line or block. Every change or omission requires a documented device-specific evidence reason. Before handoff, compare each generated fragment to the corresponding selected asset after normalizing approved instance suffixes and evidence-backed substituted values. Flag a missing comment, variable declaration, control block, wait, or cleanup as a validation failure unless the checklist records its evidence-backed omission. Never simplify for brevity, even when the XML is schema-valid.
-
-Format generated sequence fragments for review: matching XML tags align; C-like text starts on the line after `<block>`, is indented one level inside it, and uses one statement per semicolon-terminated line. Do not split XML entities such as `&amp;`.
-
-## Structural and formatting gates
-
-Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result.
-
-Put each high-level routing sequence's `__var` declarations in its opening `<block>`, before executable statements. These routing sequences are `TraceStart`, `TraceCapture`, `DoTraceFlush`, `TraceFlush`, `TraceStop`, and their `DoTrace*_<mode>` helpers; each begins with `swoTrace`, `syncTrace`, and `bufferTrace` definitions derived from `__traceout`. Component snippet sequences declare only the variables they use.
-
-When a retained scaffolding sequence has no C-like content other than its standard trace-mode `__var` declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`. Remove this comment when a component call or device-specific operation is added.
-
-Treat one-line `<block>` bodies and multiple C-like semicolon-terminated statements on one line as validation failures. Before handoff, validate XML/PDSC syntax and run:
-
-```text
-rg -n '<block>.*;</block>' <target.pdsc>
-rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>
-rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>
-```
-
-Inspect and resolve every match that is C-like sequence content. Also inspect every retained scaffolding sequence that contains only its standard trace-mode `__var` declarations and require the empty-operation comment. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
-
-Do not invent register addresses, values, funnel routes, timestamping, formatter settings, component order, or a dormant-state requirement. Honor the topology record's evidence-backed `debugconfig dormant` decision; return to `$cmsis-pack-debug-description` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified topology.
-
-Write `.agent-artifacts/<pdsc-stem>.trace-sequences.md` at the project root. Record the selected device-tree scope, each PDSC placement and its applicable descendants, trace component instances, emitted sequence names, extension placeholders, sources, and validation result. Include a `Documents requiring user download` table with `title | URL | retrieval issue | requested workspace path` whenever an identified technical document cannot be downloaded. Ask the user to download and copy it into the target workspace, then inspect that local copy before relying on it.
-
-`.agent-artifacts/` files are agent-owned and may be created or updated without user confirmation. Before changing an existing user-owned PDSC or another existing user file, present the proposed change and obtain user confirmation.
-
-After the user confirms all trace-path choices, generate, apply, and validate the complete XML in the same turn. Do not stop after updating the assembly record unless missing evidence or a validation failure blocks completion.
+Also inspect `rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>` and resolve every remaining scaffold marker. If the topology record has no evidenced dormant-state decision or a selected snippet needs unavailable information, return to `$cmsis-pack-debug-description` or request documentation.
