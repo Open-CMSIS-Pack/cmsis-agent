@@ -1,0 +1,35 @@
+# Template for a CMSIS solution that delegates the application build to west.
+# Replace every placeholder before using this file.
+solution:
+  created-for: CMSIS-Toolbox@__CMSIS_TOOLBOX_VERSION__
+  compiler: __COMPILER__
+
+  packs:
+    - pack: __CMSIS_PACK__
+
+  target-types:
+    - type: __TARGET_TYPE__
+      # Remove this entry when the target uses a DFP without a matching BSP.
+      board: __CMSIS_BOARD__
+      device: __CMSIS_DEVICE__
+      variables:
+        - west-board: __WEST_BOARD__
+      target-set:
+        - set:
+          images:
+            - project-context: __APP_NAME__.Debug
+
+  build-types:
+    - type: Debug
+      west-defs:
+        - CONFIG_DEBUG: y
+        - CONFIG_DEBUG_THREAD_INFO: y
+        - CONFIG_THREAD_STACK_INFO: n
+        - CONFIG_DEBUG_OPTIMIZATIONS: y
+    - type: Release
+      west-defs:
+        - CONFIG_SIZE_OPTIMIZATIONS: y
+
+  projects:
+    - west:
+        app-path: __APP_PATH__
