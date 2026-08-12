@@ -13,10 +13,15 @@ Search linked and local documentation first:
 - Datasheets, reference manuals, implementation guides, SDFs, SVDs, and vendor packs.
 - Debug scripts and relevant source code.
 - When a board is named, its board manual or design guide, connector pin maps, and jumper settings.
+- When device or board evidence leaves the lifecycle of an identified CoreSight component unresolved, the authoritative Arm CoreSight component technical reference manual and applicable architecture specification.
+
+When a cited vendor documentation URL is unreachable, search the web for the current official vendor page or document before recording it as unavailable. Search by vendor, document title or identifier, product family, and revision when known. Prefer the vendor's canonical page or download; do not replace an unavailable official source with an unofficial mirror. In the record, retain the failed URL, retrieval result, search terms, and replacement official URL or the precise reason no official replacement was found.
 
 For each item, cite the document edition/revision and section/page when known; for source, cite repository/version, path, and symbol or line. An authoritative vendor SDK header or source file may evidence a generated pin-function-register encoding when the hardware manual omits that encoding; cite the matching device, SDK version, path, and symbol. Do not infer from a part name or similar device: addresses, identifiers, protocol capabilities, core associations, reset/debug-authentication behavior, dormant-state requirements, patches, or trace routing.
 
 If documentation does not establish DP/AP or CoreSight topology, offer `pyocd gdbserver -vv` for an accessible target or request its complete startup log. Detection is positive but incomplete evidence: it can omit powered-down/reset-held, debug-locked, or disabled subsystems. Rely on a repeat scan only with documented unlock or power-up steps; an incomplete scan remains incomplete.
+
+Use CoreSight documentation to establish only component-local lifecycle programming: initialization, enable/capture, flush, stop, and status polling for the identified component and version. Cite the component/version and exact section. Do not use it to infer SoC or board integration, component address, clock or reset control, pin configuration, or routing; require device or board evidence for those facts. Before recording a sink-lifecycle blocker, complete this CoreSight evidence pass.
 
 ## Required review record
 
@@ -56,22 +61,22 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 |---|---|---|---|---|---|
 
 ## Completion checklist
-| Path / mode | Clock control | Pin-function and electrical configuration | Source selection | Sink lifecycle | Retrieval attempt and precise blocker | Complete |
-|---|---|---|---|---|---|---|
+| Path / mode | Clock control | Pin-function and electrical configuration | Source selection | Sink lifecycle | CoreSight lifecycle evidence pass | Retrieval attempt and precise blocker | Complete |
+|---|---|---|---|---|---|---|---|
 
 ## Open questions
 - `<question or none>`
 
 ## Documents requiring user download
-| Title | URL | Retrieval issue | Requested workspace path |
-|---|---|---|---|
+| Title | Failed URL | Retrieval issue and search terms | Replacement official URL | Requested workspace path |
+|---|---|---|---|---|
 ```
 
 - Update `Last updated` on every change; copy model details exactly from the execution environment. Use `not reported` for unavailable values; do not infer them.
 - Only this skill may update the artifact. Treat it as read-only elsewhere; return here if a required fact is absent, stale, contradictory, or insufficient.
 - For user review, outline every available, unavailable, or unresolved trace path and its reason, even when trace was not requested. After confirmation, configure every evidenced path by default; do not require per-path selection.
 - For a board-specific request, record every documented connector or jumper routing choice and the evidenced configurable-routing-variable proposal; do not defer this analysis to trace-sequence generation. This skill proposes variables only and does not edit PDSC `debugvars`.
-- Before writing or presenting a draft, make a second evidence pass for every unresolved trace prerequisite: clock control, pin-function or electrical configuration, source selection, and sink lifecycle. Mark the completion checklist complete only when every path has all required facts or records a concrete retrieval attempt and precise blocker.
+- Before writing or presenting a draft, make a second evidence pass for every unresolved trace prerequisite: clock control, pin-function or electrical configuration, source selection, and sink lifecycle. For every unresolved lifecycle, complete the CoreSight lifecycle evidence pass before recording a blocker. Mark the completion checklist complete only when every path has all required facts or records a concrete retrieval attempt and precise blocker.
 
 ## Readiness state
 
