@@ -35,7 +35,7 @@ TraceFlush:   mode-specific CoreSight flush/read helpers -> ADD-DEVICE-SPECIFIC-
 TraceStop:    mode-specific CoreSight stop helpers -> ADD-DEVICE-SPECIFIC-HERE
 ```
 
-When device documentation shows that reset can clear or change trace-clock configuration, consider adding the evidence-backed clock reprogramming to `TraceStart`'s device-specific region, before the mode-specific CoreSight start helpers. This complements any documented pre-auto-detection enablement in `DebugDeviceUnlock`; do not assume one survives reset or duplicate an operation without a reset/lifecycle reason.
+Enable trace clocks in `DebugDeviceUnlock` before auto-detection. Some devices cannot be automatically detected while their trace clocks are gated. This is the default requirement; omit or relocate it only when the user explicitly directs otherwise. Also configure trace clocks in `TraceStart`'s device-specific region, before the mode-specific CoreSight start helpers. Do not assume the `DebugDeviceUnlock` setting survives reset. This `TraceStart` setup is also required by default; omit or relocate it only when the user explicitly directs otherwise.
 
 The debugger is expected to call `TraceFlush` before `TraceStop` so trace data is drained before stopping. `DoTraceFlush_<mode>` helpers are reusable from other verified sequences, but `TraceStop` and `DoTraceStop_<mode>` helpers must not call `DoTraceFlush` or any `DoTraceFlush_<mode>` helper again.
 
