@@ -16,6 +16,20 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 | [`identify-zephyr-board`](skills/project/identify-zephyr-board/SKILL.md) | Resolve a physical board to its exact Zephyr board target and fitted MCU or SoC. |
 | [`start-zephyr-project`](skills/project/start-zephyr-project/SKILL.md) | Create an initial west-integrated CMSIS solution for a Zephyr-supported board. |
 
+### Bring-up
+
+| Skill | Purpose |
+| --- | --- |
+| [`debug-knowledge`](skills/bring-up/debug-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's CMSIS debug and trace topology and operating requirements. |
+
+### Pack
+
+| Skill | Purpose |
+| --- | --- |
+| [`generate-debug-description`](skills/pack/generate-debug-description/SKILL.md) | Add or review verified non-sequence CMSIS-Pack Debug Description definitions in an existing DFP PDSC. |
+| [`generate-debug-sequences`](skills/pack/generate-debug-sequences/SKILL.md) | Add evidence-backed device-specific non-trace debug sequences to an existing DFP PDSC. |
+| [`generate-trace-sequences`](skills/pack/generate-trace-sequences/SKILL.md) | Add modular, evidence-backed CoreSight trace sequences to an existing DFP PDSC. |
+
 ## CMSIS foundation
 
 The collection builds on these components and tools:
