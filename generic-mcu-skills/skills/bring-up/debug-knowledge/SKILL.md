@@ -19,14 +19,14 @@ description: Build a documentation-led, verifiable knowledge record of an existi
 ## Execution Steps (Strict Workflow)
 
 1. **Analysis:** Find the target `.pdsc`, selected scope, affected `<processor>` descriptions, and any existing owned topology record. Stop if no device description exists.
-2. **Knowledge acquisition:** Read `references/debug-knowledge-contract.md` before gathering facts. Load only the target PDSC, selected device subtree, and documentation for the requested connection and every supported trace path. Record only documented hardware and topology facts.
-3. **Verification:** Update the owned topology record using the required evidence tables and readiness state. Identify unresolved, unavailable, and conflicting facts; do not infer missing values.
+2. **Knowledge acquisition:** Read `references/debug-knowledge-contract.md` before gathering facts. Load only the target PDSC, selected device subtree, and documentation for the requested connection and every supported trace path. For each trace path, establish its clock source and enablement, pin mux/PFS programming, path-selection controls, and sink operating mode and lifecycle requirements. Record only documented hardware and topology facts.
+3. **Verification:** Update the owned topology record using the required evidence tables and readiness state. Identify unresolved, unavailable, and conflicting facts; do not infer missing values or treat topology alone as trace readiness.
 4. **Review:** Present the record and every available, unavailable, or unresolved trace path to the user. Use `DRAFT — AWAITING USER REVIEW` before confirmation; set `READY` only after confirmation and only when sufficient evidence exists for the intended downstream work.
 5. **Handoff:** Keep the owned record self-contained, traceable, and reusable as read-only input for later CMSIS-Pack work. Update it only to correct, refresh, or extend documented knowledge.
 
 ## Guardrails & Constraints (Strict Rules)
 
-- Do not invent addresses, identifiers, protocol capabilities, core associations, reset or authentication behavior, dormant-state requirements, patches, or trace routing.
+- Do not invent addresses, identifiers, protocol capabilities, core associations, reset or authentication behavior, dormant-state requirements, patches, trace routing, clock or pin configuration, path-selection controls, or sink lifecycle behavior.
 - Do not edit PDSC debug descriptions or sequences. Do not load sequence-generation instructions or reusable trace-component assets. Inspect existing PDSC sequences only when needed to establish documented topology.
 - Treat automatic target detection as positive but incomplete evidence. Require documented unlock or power-up steps before relying on a repeat scan.
 - Preserve `READY` unless an affected fact becomes stale, contradictory, or insufficient. Use `BLOCKED` only when a required input is unavailable and name that input.

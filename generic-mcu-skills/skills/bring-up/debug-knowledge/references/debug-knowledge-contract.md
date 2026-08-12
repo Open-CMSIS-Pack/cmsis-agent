@@ -6,6 +6,8 @@ Use the current [Open-CMSIS-Pack *Debug Description* specification](https://open
 
 Map the selected device subtree, including inheritance and leaf variants. Inspect relevant PDSC debug and trace definitions—ports, DP/APs, variables, patches, and sequences—and record inherited and local facts without prescribing PDSC XML. Identify every documented SWO, synchronous, and trace-buffer path.
 
+For each trace path, record the configuration that makes it operable: trace-clock source and enablement, pin mux/PFS programming, path-selection controls, and the sink operating mode and lifecycle (initialization, capture, flush, and stop).
+
 Search linked and local documentation first:
 
 - Datasheets, reference manuals, implementation guides, SDFs, SVDs, and vendor packs.
@@ -44,6 +46,10 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 | Path / mode | Processor | Route / components | DP / AP path | Availability | Evidence |
 |---|---|---|---|---|---|
 
+## Trace operating requirements
+| Path / mode | Trace-clock source and enablement | Pin mux / PFS programming | Path-selection controls | Sink mode and lifecycle | Evidence | Status |
+|---|---|---|---|---|---|---|
+
 ## Open questions
 - `<question or none>`
 
@@ -59,7 +65,7 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 ## Readiness state
 
 - Create and update the artifact without confirmation. Before confirmation, use exactly `DRAFT — AWAITING USER REVIEW` and present it for corrections.
-- Set `READY` only after confirmation and sufficient evidence for the intended downstream work. Trace assembly additionally requires an evidenced processor, debug connection, DP/AP selection, CoreSight addresses, and every available trace path.
+- Set `READY` only after confirmation and sufficient evidence for the intended downstream work. Trace assembly additionally requires an evidenced processor, debug connection, DP/AP selection, CoreSight addresses, and every available trace path; for each path, it also requires evidenced trace-clock source and enablement, pin mux/PFS programming, path-selection controls, and sink mode plus initialization, capture, flush, and stop lifecycle requirements. Record an authoritative `not applicable` decision where a control does not apply. Leave the record non-READY for trace assembly when any required control is unknown, unavailable, or contradictory.
 - Preserve `READY` unless an affected fact becomes stale, contradictory, or insufficient. Use `BLOCKED` only for an unavailable required input, and name it.
 
 Keep verified knowledge as reusable CMSIS-Pack input.
