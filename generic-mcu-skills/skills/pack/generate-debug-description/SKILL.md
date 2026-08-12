@@ -1,6 +1,6 @@
 ---
 name: generate-debug-description
-description: Add or review non-sequence CMSIS-Pack Debug Description content in an existing Device Family Pack PDSC. Use for debug, debugconfig, dbg_datapatch, debug-port, or access-port definitions after `$debug-knowledge` has established the required knowledge. Do not collect debug knowledge, generate or update debugvars, implement device debug sequences, or generate CoreSight trace sequences.
+description: Add or review non-sequence CMSIS-Pack Debug Description content in an existing Device Family Pack PDSC. Use for debug, debugconfig, dbg_datapatch, debug-port, or access-port definitions after `$debug-knowledge` has established the required debug knowledge. Do not collect debug knowledge, generate or update debugvars, implement device debug sequences, or generate CoreSight trace sequences.
 ---
 
 # Generate Debug Description
@@ -18,8 +18,8 @@ description: Add or review non-sequence CMSIS-Pack Debug Description content in 
 
 ## Execution Steps (Strict Workflow)
 
-1. **Analysis:** Locate the target PDSC, selected scope, affected processors, and read-only knowledge record. Require a current record covering the selected connection and trace prerequisites; return to `$debug-knowledge` when it is absent, blocked, stale, contradictory, or insufficient.
-2. **Processing:** Read `references/description-contract.md` before editing. Translate only verified facts into correctly inherited or local `debugconfig`, `debug`, `debug-port`, `access-port`, and `dbg_datapatch` definitions. Present the topology record and proposed XML, then apply only user-confirmed changes.
+1. **Analysis:** Locate the target PDSC, selected scope, affected processors, and read-only debug knowledge record. Require a current record covering the selected connection and non-sequence definitions; return to `$debug-knowledge` when it is absent, blocked, stale, contradictory, or insufficient.
+2. **Processing:** Read `references/description-contract.md` before editing. Translate only verified facts into correctly inherited or local `debugconfig`, `debug`, `debug-port`, `access-port`, and `dbg_datapatch` definitions. Present the debug knowledge record and proposed XML, then apply only user-confirmed changes.
 3. **Validation:** Validate XML/PDSC syntax with the available toolchain and run the contract's block-formatting checks. Inspect and resolve every relevant match.
 4. **Formatting:** Report emitted definitions, placement and applicability, sources, confidence, unresolved items, and validation results.
 

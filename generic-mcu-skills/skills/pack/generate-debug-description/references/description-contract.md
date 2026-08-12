@@ -4,7 +4,7 @@ Use the current [Open-CMSIS-Pack *Debug Description* specification](https://open
 
 ## PDSC definitions
 
-Translate only verified topology facts into inherited/local non-sequence PDSC definitions. Provide explicit `debugconfig` and `debug` elements for every verified connection model. Omit optional debug-port and access-port definitions that only restate the standard default model; add `accessportV1` only when the verified topology requires it, including a mixed ADIv5/ADIv6 design. Apply `debugconfig dormant="true"` only when the topology record contains device-specific evidence.
+Translate only verified debug knowledge into inherited/local non-sequence PDSC definitions. Provide explicit `debugconfig` and `debug` elements for every verified connection model. Omit optional debug-port and access-port definitions that only restate the standard default model; add `accessportV1` only when the verified topology requires it, including a mixed ADIv5/ADIv6 design. Apply `debugconfig dormant="true"` only when the debug knowledge record contains device-specific evidence.
 
 Apply verified `dbg_datapatch` entries, including their location, value or payload, applicability, and workaround. Preserve all `debugvars` and sequences: `$generate-debug-sequences` and `$generate-trace-sequences` own their generation and updates. Do not use `__` as a prefix for DFP-defined local sequence variables.
 
@@ -14,7 +14,7 @@ Place a shared definition at the highest selected common device-tree ancestor; p
 
 ## Confirmation and validation
 
-Before editing a user-owned PDSC, present the referenced topology record and proposed XML for confirmation. Apply only confirmed facts. Validate XML/PDSC syntax with the available toolchain, then run:
+Before editing a user-owned PDSC, present the referenced debug knowledge record and proposed XML for confirmation. Apply only confirmed facts. Validate XML/PDSC syntax with the available toolchain, then run:
 
 ```text
 rg -n '<block>.*;</block>' <target.pdsc>

@@ -8,8 +8,6 @@ Browse the current official [Open-CMSIS-Pack *Debug Description* specification](
 
 For verified device unlock behavior, prefer a `DebugDeviceUnlock` implementation that supplements the debugger-provided defaults over overriding another predefined sequence. Override a predefined sequence only when `DebugDeviceUnlock` cannot provide the required documented behavior. Obtain the current specification default, then copy its complete structure, comments, variables, checks, waits, cleanup, and control blocks before applying evidence-backed changes. Record the specification URL, version/revision, and section. For custom sequences, document every register address, value, delay, condition, and call with evidence; never invent reset, unlock, authentication, boot, flash, or processor-control behavior.
 
-When documented trace-clock enablement is needed for discovery, consider performing it in `DebugDeviceUnlock` before debugger auto-detection. Keep the operation conditional on the selected device and supported by evidence; do not use it to replace an overridden default unless that is necessary.
-
 Implement every evidenced device-specific non-trace behavior in the selected scope by default. When a documented runtime choice belongs to the end user, generate or update it as a `debugvars` `__var` with a supported default and propose matching Configuration Wizard annotations in `.dbgconf`; do not use it to defer missing evidence or omit a verified behavior.
 
 ## Low-power and sleep-mode debug
@@ -28,6 +26,6 @@ When the change adds a `<debugvars>` `__var`, suggest adding or updating the mat
 
 Align matching XML tags. Put C-like content on lines inside each `<block>`, indented one level deeper than the tag, with one semicolon-terminated statement per line; keep XML entities intact. A one-line `<block>` body or multiple C-like statements on one line is a validation failure. Do not compress, partially generate, or omit required structure when context or time is tight.
 
-Before changing a user-owned PDSC or other file, present the sequence record, referenced topology record, and proposed XML for confirmation. After confirmation, immediately apply and validate the complete non-trace change in the same turn.
+Before changing a user-owned PDSC or other file, present the sequence record, referenced debug knowledge record, and proposed XML for confirmation. After confirmation, immediately apply and validate the complete non-trace change in the same turn.
 
 Validate XML/PDSC syntax with the available toolchain. Run `rg -n '<block>.*;</block>' <target.pdsc>` and `rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>`, then inspect and resolve every C-like match. For overridden predefined sequences, compare generated output with the current specification default and record every evidence-backed difference. Report changed sequences, per-CPU applicability, sources, placement, and validation results.

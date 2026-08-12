@@ -1,6 +1,6 @@
 # Trace assembly contract
 
-Use the current [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html) as the grammar authority. Its `Sequence("name")` function calls another debug access sequence; predefined sequence implementations in a PDSC override the debugger-provided behavior.
+Use the current [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html) as the grammar authority. Its `Sequence("name")` function calls another debug access sequence; predefined sequence implementations in a PDSC override the debugger-provided behavior. Use `.agent-artifacts/<pdsc-stem>.trace-knowledge.md` from `$trace-knowledge` as read-only input. Consult `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` from `$debug-knowledge` only when trace implementation requires a debug connection or dormant-state fact that the trace knowledge record does not provide.
 
 ## Contents
 
@@ -76,7 +76,7 @@ When a verified device-specific trace design uses a CoreSight component in a non
 
 For a selected device subtree, place a configuration shared by all selected descendants on the topmost selected common level. Put only specializations/deviations on outer leaf variants. The same placement rule applies to `<debugvars>`, component sequence bodies, scaffold calls, and device-extension placeholders.
 
-The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Fill every `TODO` only from the topology record and authoritative device/CoreSight documentation.
+The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Fill every `TODO` only from the trace knowledge record and authoritative device/CoreSight documentation.
 
 ## Component asset fidelity
 
@@ -104,7 +104,7 @@ rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>
 
 Inspect and resolve every match that is C-like sequence content. Also inspect every retained scaffolding sequence that contains only its standard trace-mode `__var` declarations and require the empty-operation comment. If context or time is tight, stop and continue later rather than producing compressed or partial sequences. Never trade required scaffold structure for schema validity or a shorter response.
 
-Do not invent register addresses, values, funnel routes, timestamping, formatter settings, component order, or a dormant-state requirement. Honor the knowledge record's evidence-backed `debugconfig dormant` decision; return to `$debug-knowledge` if it is not recorded. Ask for documentation when a selected snippet needs information not supplied by the verified knowledge.
+Do not invent register addresses, values, funnel routes, timestamping, formatter settings, component order, or a dormant-state requirement. Honor the trace knowledge record's evidence-backed `debugconfig dormant` decision when present; otherwise obtain that decision from `$debug-knowledge` when the selected trace configuration requires it. Ask for documentation when a selected snippet needs information not supplied by the verified trace knowledge.
 
 Write `.agent-artifacts/<pdsc-stem>.trace-sequences.md` at the project root. Record the selected device-tree scope, each PDSC placement and its applicable descendants, trace component instances, emitted sequence names, extension placeholders, sources, and validation result. Include a `Documents requiring user download` table with `title | URL | retrieval issue | requested workspace path` whenever an identified technical document cannot be downloaded. Ask the user to download and copy it into the target workspace, then inspect that local copy before relying on it.
 

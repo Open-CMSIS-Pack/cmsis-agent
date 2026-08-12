@@ -20,7 +20,8 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 
 | Skill | Purpose |
 | --- | --- |
-| [`debug-knowledge`](skills/bring-up/debug-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's CMSIS debug and trace topology and operating requirements. |
+| [`debug-knowledge`](skills/bring-up/debug-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's CMSIS debug topology, reset behavior, and operating requirements. |
+| [`trace-knowledge`](skills/bring-up/trace-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's CoreSight trace topology and operating requirements. |
 
 ### Pack
 
