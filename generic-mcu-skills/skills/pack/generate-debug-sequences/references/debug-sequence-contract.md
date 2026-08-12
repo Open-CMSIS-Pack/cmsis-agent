@@ -24,7 +24,7 @@ When the change adds a `<debugvars>` `__var`, suggest adding or updating the mat
 
 ## Formatting, confirmation, and validation
 
-Align matching XML tags. Put C-like content on lines inside each `<block>`, indented one level deeper than the tag, with one semicolon-terminated statement per line; keep XML entities intact. A one-line `<block>` body or multiple C-like statements on one line is a validation failure. Do not compress, partially generate, or omit required structure when context or time is tight.
+Align matching XML tags. Put C-like content on lines inside each `<block>`, indented one level deeper than the tag, with one semicolon-terminated statement per line; keep XML entities intact. A one-line `<block>` body or multiple C-like statements on one line is a validation failure. Do not compress, partially generate, or omit required structure when context or time is tight. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
 
 Before changing a user-owned PDSC or other file, present the sequence record, referenced debug knowledge record, and proposed XML for confirmation. After confirmation, immediately apply and validate the complete non-trace change in the same turn.
 

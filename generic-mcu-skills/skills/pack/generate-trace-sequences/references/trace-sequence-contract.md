@@ -88,7 +88,7 @@ Format generated sequence fragments for review: matching XML tags align; C-like 
 
 ## Structural and formatting gates
 
-Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result.
+Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
 
 Put each high-level routing sequence's `__var` declarations in its opening `<block>`, before executable statements. These routing sequences are `TraceStart`, `TraceCapture`, `DoTraceFlush`, `TraceFlush`, `TraceStop`, and their `DoTrace*_<mode>` helpers; each begins with `swoTrace`, `syncTrace`, and `bufferTrace` definitions derived from `__traceout`. Component snippet sequences declare only the variables they use.
 
