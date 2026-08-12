@@ -12,7 +12,7 @@
       __var ffcrValue = 0x00000000;
       __var etfStatus = 0x00000000;
 
-      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___BASE, ETF___INSTANCE_INDEX___AP);
+      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
       __ap = ETF___INSTANCE_INDEX___AP; // Set AP
 
       // Configure ETF to HW FIFO for Sync Trace
