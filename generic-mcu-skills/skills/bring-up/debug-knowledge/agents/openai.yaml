@@ -1,0 +1,4 @@
+interface:
+  display_name: "CMSIS: Debug Knowledge"
+  short_description: "Document SoC debug and trace topology"
+  default_prompt: "Use $debug-knowledge to document the CMSIS debug and trace topology for this device."
