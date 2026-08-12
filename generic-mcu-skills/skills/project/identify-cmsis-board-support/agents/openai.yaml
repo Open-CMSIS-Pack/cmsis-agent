@@ -1,0 +1,4 @@
+interface:
+  display_name: "Identify CMSIS Board Support"
+  short_description: "Find a CMSIS BSP or DFP for a board"
+  default_prompt: "Use $identify-cmsis-board-support to find the CMSIS BSP or DFP for my board."
