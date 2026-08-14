@@ -6,7 +6,7 @@ Run `$prepare-pdsc-sequence-change` before domain assembly, `$manage-pdsc-debugv
 
 ## Scope and evidence
 
-Reuse the read-only `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` from `$debug-knowledge`: cross-check selected scope, processors, DP/AP/APID mappings, inherited definitions, and device behavior. Create `.agent-artifacts/<pdsc-stem>.debug-sequences.md` without confirmation. Record the knowledge reference, scope, processors, inherited sequences, proposed names, placement and descendants, evidence, default-implementation provenance, low-power debug behavior, and open questions. If the knowledge record lacks required connection facts, return to `$debug-knowledge`.
+Reuse the read-only `.agent-artifacts/<pdsc-stem>.debug-access-knowledge.md` from `$debug-access-knowledge` and `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` from `$debug-knowledge`: cross-check selected scope, processors, DP/AP/APID mappings, inherited definitions, and device behavior. Create `.agent-artifacts/<pdsc-stem>.debug-sequences.md` without confirmation. Record both knowledge references, scope, processors, inherited sequences, proposed names, placement and descendants, evidence, default-implementation provenance, low-power debug behavior, and open questions. Return missing connection facts to `$debug-access-knowledge` and missing behavior facts to `$debug-knowledge`.
 
 Browse the current official [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html) and relevant linked pages before implementation. Use it as the authority for XML grammar, predefined names, execution context, and default implementations. Search device documentation, vendor packs, SVDs, debug scripts, and source code for device-specific facts.
 
@@ -18,7 +18,7 @@ Implement every evidenced device-specific non-trace behavior in the selected sco
 
 For each relevant documented mode, determine whether the processor, DP/AP, debug clocks/power, pins, reset, and wake path remain accessible. Use only documented pre-entry, wake, reset, or reconnect actions to retain or restore debug access; never prevent sleep, force a higher-power mode, or write undocumented registers merely to keep a probe connected.
 
-For every mode, record applicability, expected access, required action, affected sequence, evidence, and validation in `.agent-artifacts/<pdsc-stem>.debug-sequences.md`. When a target is available, enter the mode, check access where supported, then wake or recover it and confirm the processor and DP/AP path remain usable; otherwise record the required test. State the documented recovery path for modes that cannot retain debugging, and return to `$debug-knowledge` if low-power behavior changes a connection, DP/AP, or power-domain fact.
+For every mode, record applicability, expected access, required action, affected sequence, evidence, and validation in `.agent-artifacts/<pdsc-stem>.debug-sequences.md`. When a target is available, enter the mode, check access where supported, then wake or recover it and confirm the processor and DP/AP path remain usable; otherwise record the required test. State the documented recovery path for modes that cannot retain debugging, and return connection or DP/AP changes to `$debug-access-knowledge` and low-power behavior changes to `$debug-knowledge`.
 
 ## CPU applicability and placement
 

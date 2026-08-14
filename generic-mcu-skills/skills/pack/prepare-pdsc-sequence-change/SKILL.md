@@ -13,7 +13,7 @@ description: Prepare an evidence-backed CMSIS-Pack PDSC sequence-change summary 
 ## Prerequisites & Context
 
 - **Expected input:** Existing target `.pdsc`, selected device-tree scope, `debug` or `trace` domain, verified facts and source references, and the requested outcome.
-- **Dependencies:** Current [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html); verified facts derived from `$debug-knowledge` or `$trace-knowledge` when applicable.
+- **Dependencies:** Current [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html); verified facts derived from `$debug-access-knowledge`, `$debug-knowledge`, or `$trace-knowledge` when applicable.
 - **Portability:** Support any existing CMSIS Device Family Pack. Do not assume a device family, debug probe, toolchain, or active target.
 
 ## Execution Steps (Strict Workflow)

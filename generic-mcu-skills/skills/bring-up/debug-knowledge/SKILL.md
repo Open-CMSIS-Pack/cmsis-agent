@@ -1,41 +1,42 @@
 ---
 name: debug-knowledge
-description: Build a documentation-led, verifiable knowledge record of an existing SoC's CMSIS debug connection topology, access configuration, reset behavior, and device debug behavior for subsequent generation of PDSC debug definitions and debug sequences. Use when those documented debug facts need establishing or refreshing. No active target connection is required; treat runtime scanning as supplementary evidence.
+description: Build a documentation-led, verifiable knowledge record of an existing SoC's reset, unlock, authentication, boot, flash, processor-control, and low-power debug behavior after `$debug-access-knowledge` has established the reusable access topology. Use when those device-debug facts need establishing or refreshing for PDSC debug sequences; no active target connection is required.
 ---
 
-# CMSIS Debug Knowledge Acquisition
+# CMSIS: Debug Knowledge
 
 ## Target & Persona
 
 - **Role:** Verification Engineer and CMSIS-Pack Tool Integrator.
-- **Objective:** Build a shared, reviewable SoC debug knowledge foundation for later CMSIS-Pack work.
+- **Objective:** Build a shared, reviewable SoC device-debug behavior foundation for later CMSIS-Pack debug-sequence work.
 
 ## Prerequisites & Context
 
-- **Expected input:** An existing target `.pdsc`, selected family/subFamily/device/variant scope, affected processor descriptions, and available device documentation or target startup logs. Board evidence may support an explicitly requested board-specific debug configuration but does not define Pack scope.
-- **Dependencies:** The current Open-CMSIS-Pack *Debug Description* specification and the evidence contract in `references/debug-knowledge-contract.md`.
+- **Expected input:** An existing target `.pdsc`, selected family/subFamily/device/variant scope, affected processor descriptions, documentation or target startup logs, and a current `.agent-artifacts/<pdsc-stem>.debug-access-knowledge.md` record covering the selected scope.
+- **Dependencies:** `$debug-access-knowledge`; `$resolve-official-device-documentation` when a cited vendor source is unavailable; `$board-debug-knowledge` for an explicitly requested board-specific configuration; the current Open-CMSIS-Pack *Debug Description* specification; and `references/debug-knowledge-contract.md`.
 - **Owned artifact:** `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` at the project root. Do not create a DFP or modify PDSC debug-description elements or sequences.
+- **Portability:** Support any existing CMSIS Device Family Pack. Do not assume a device family, debug probe, toolchain, or active target.
 
 ## Execution Steps (Strict Workflow)
 
-1. **Analysis:** Find the target `.pdsc`, selected scope, affected `<processor>` descriptions, and any existing owned debug-knowledge record. Stop if no device description exists.
-2. **Knowledge acquisition:** Read `references/debug-knowledge-contract.md` before gathering facts. Load only the target PDSC, selected device subtree, and documentation needed for the requested debug connection and device behavior. When a cited vendor URL is unreachable, search the web for its current official vendor page or document before treating the source as unavailable. Use board documentation only as supporting evidence for an explicitly requested board-specific debug configuration; do not narrow device-level Pack options to that board. Record only documented connection topology, debug access, reset behavior, unlock, authentication, boot, flash, processor control, and low-power facts.
-3. **Verification:** Update the owned record using the required evidence tables and readiness state. Before writing a draft, make a second evidence pass for each unresolved prerequisite of the intended downstream work. Identify unresolved, unavailable, and conflicting facts; do not infer missing values. Keep the record limited to documented debug facts in scope.
-4. **Review:** Present the record and its unresolved facts to the user. Use `DRAFT — AWAITING USER REVIEW` before confirmation; set `READY` only after confirmation and only when sufficient evidence exists for the intended downstream work.
-5. **Maintenance:** Keep the owned record self-contained, traceable, and reusable as read-only input for later CMSIS-Pack debug work. Update it only to correct, refresh, or extend documented knowledge.
+1. **Analysis:** Find the target PDSC, selected scope, affected processors, current access record, and any existing owned behavior record. Stop if no device description or sufficient access record exists.
+2. **Knowledge acquisition:** Read `references/debug-knowledge-contract.md` before gathering facts. Load only documentation needed for reset, unlock, authentication, boot, flash, processor control, and low-power behavior. Run `$resolve-official-device-documentation` for an unavailable cited vendor URL. Run `$board-debug-knowledge` only for an explicitly requested board configuration. Record only documented device-debug behavior in this record; access topology remains in the access record.
+3. **Verification:** Update the owned record using the required evidence tables and readiness state. Before writing a draft, make a second evidence pass for each unresolved prerequisite of the intended downstream work. Identify unresolved, unavailable, and conflicting facts; do not infer missing values.
+4. **Review:** Present the record and its unresolved facts to the user. Use `DRAFT — AWAITING USER REVIEW` before confirmation; set `READY` only after confirmation, a `READY` access record, and sufficient evidence for the intended downstream work.
+5. **Maintenance:** Keep the owned record self-contained for device-debug behavior and reusable as read-only input for later CMSIS-Pack debug-sequence work. Update it only to correct, refresh, or extend documented knowledge.
 
 ## Guardrails & Constraints (Strict Rules)
 
-- Do not invent addresses, identifiers, protocol capabilities, core associations, reset or authentication behavior, dormant-state requirements, patches, debug access, or low-power behavior.
-- Do not edit PDSC debug descriptions or sequences. Do not load sequence-generation instructions or reusable component assets. Inspect existing PDSC sequences only when needed to establish documented debug behavior.
-- Treat automatic target detection as positive but incomplete evidence. Require documented unlock or power-up steps before relying on a repeat scan.
-- Preserve `READY` unless an affected fact becomes stale, contradictory, or insufficient. Use `BLOCKED` only when a required input is unavailable and name that input.
-- Treat the artifact as read-only outside this workflow. Return to this workflow whenever a required debug fact is absent, stale, contradictory, or insufficient.
+- **No fabrication:** Do not invent reset, unlock, authentication, boot, flash, processor-control, low-power behavior, or board routing. Return missing connection, protocol, DP/AP, or dormant-state facts to `$debug-access-knowledge`.
+- **Portability:** Do not introduce a device-family, debugger, toolchain, or runtime-target dependency unless authoritative inputs require it.
+- **Critical blockers:** Stop when the access record is absent, non-READY, stale, contradictory, or insufficient; also stop for an unavailable required behavior input and name it.
+- **Scope:** Establish device-debug behavior only. Do not edit PDSC content, create component assets, or duplicate debug access topology.
+- **Tone and style:** Respond factually and directly. Omit conversational filler.
 
 ## Expected Output
 
-Create or update the debug knowledge review record defined by the evidence contract, including user-relevant debug-variable proposals when applicable, then provide the concise unresolved-facts summary required for user review before `READY`.
+Create or update the debug behavior review record defined by the evidence contract, including board-specific candidate runtime choices when applicable, then provide the concise unresolved-facts summary required for user review before `READY`.
 
 ## Validation Resources
 
-Read [the evidence contract](references/debug-knowledge-contract.md) in full before collecting evidence. It defines evidence sources, the required record schema, scan limits, readiness criteria, and handoff boundaries.
+Read [the evidence contract](references/debug-knowledge-contract.md) in full before collecting evidence. It defines the behavior-record schema, scan limits, readiness criteria, and handoff boundaries.
