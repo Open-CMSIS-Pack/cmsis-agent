@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintain Workspace Skills"
+  short_description: "Keep repository skills, templates, and README catalogs aligned."
+  default_prompt: "Create or update a skill in this workspace and keep its template and README documentation compliant."

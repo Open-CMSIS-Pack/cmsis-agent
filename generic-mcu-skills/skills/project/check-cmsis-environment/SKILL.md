@@ -5,7 +5,25 @@ description: Verify CMSIS-Toolbox, its CMake and Ninja build environment, and th
 
 # Check CMSIS Environment
 
-## Workflow
+## Target & Persona
+
+- **Role:** Verification Engineer
+- **Objective:** Establish whether the current process can build CMSIS solution projects with CMSIS-Toolbox and at least one compiler.
+
+## Prerequisites & Context
+
+- **Expected input:** The workspace root and, when present, its `vcpkg-configuration.json` manifest.
+- **Dependencies:** An already installed CMSIS-Toolbox `cbuild` executable, CMake, Ninja, and compiler artifacts. The Arm Tools Environment Manager and the CMSIS Solution extension are optional discovery sources, not required tools.
+- **Portability:** Applies to CMSIS solution workspaces on supported host operating systems. It has no MCU-, RTOS-, debugger-, or board-specific assumptions; compiler registrations are discovered from the workspace environment.
+
+## Execution Steps (Strict Workflow)
+
+1. **Analysis:** Inspect the workspace manifest and the already-installed tool artifacts it selects.
+2. **Processing:** Reproduce the selected tool environment only in the current process, then run the detailed checks below.
+3. **Validation:** Confirm `cbuild`, CMake, Ninja, and the required compiler toolchain through the listed `cbuild` commands.
+4. **Formatting:** Return the defined `PASS` or `FAIL` report with the observed paths, versions, and missing requirements.
+
+### Detailed procedure
 
 1. From the workspace root, check for `vcpkg-configuration.json` before running
    `cbuild`.
@@ -62,7 +80,15 @@ After the user completes the external setup, restart from the
 `vcpkg-configuration.json` check and repeat the complete workflow. VS Code is an
 optional setup method and is not required by this skill.
 
-## Output
+## Guardrails & Constraints (Strict Rules)
+
+- **No fabrication:** Do not invent artifact locations, tool versions, compiler registrations, or command results.
+- **Portability:** Do not add persistent host settings or assume a compiler family beyond the artifacts selected by the workspace.
+- **Critical blockers:** Stop when a selected artifact is absent or ambiguous, `cbuild` is unavailable, or a required environment check fails.
+- **Scope:** Verify the existing environment only; do not install, update, repair, or reconfigure tools.
+- **Tone and style:** Respond factually and directly. Omit conversational filler.
+
+## Expected Output
 
 Report:
 
@@ -76,7 +102,7 @@ Report:
 - each missing requirement and the applicable setup reference when status is
   `FAIL`.
 
-## Resources
+## Validation Resources
 
 - [CMSIS-Toolbox build tools](https://open-cmsis-pack.github.io/cmsis-toolbox/build-tools/)
 - [CMSIS-Toolbox installation](https://open-cmsis-pack.github.io/cmsis-toolbox/installation/)

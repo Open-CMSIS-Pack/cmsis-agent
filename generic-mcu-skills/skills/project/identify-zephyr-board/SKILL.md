@@ -5,7 +5,16 @@ description: Resolve a user-supplied physical board to its exact Zephyr board ta
 
 # Identify Zephyr Board
 
-## Input
+## Target & Persona
+
+- **Role:** Zephyr Project Integrator
+- **Objective:** Resolve one physical board to its exact target in the installed Zephyr board catalog and identify its fitted MCU or SoC.
+
+## Prerequisites & Context
+
+- **Expected input:** The physical board manufacturer, model, relevant revision, and a verified Zephyr workspace with its venv-local west executable.
+- **Dependencies:** An installed Zephyr workspace, its venv-local west executable, local board metadata and documentation, and the Zephyr supported-boards page for comparison.
+- **Portability:** Applies to boards represented by the installed Zephyr version. It depends on Zephyr board metadata but has no CMSIS-pack, compiler, debugger, or RTOS configuration assumption beyond Zephyr itself.
 
 Require:
 
@@ -16,7 +25,14 @@ Require:
 Do not select a board on the user's behalf or infer it solely from a connected
 debug probe or directory name.
 
-## Workflow
+## Execution Steps (Strict Workflow)
+
+1. **Analysis:** Verify the supplied physical-board facts and use the installed west catalog as the version-matched source of candidates.
+2. **Processing:** Search candidates, inspect their metadata and local documentation, and construct an exact target only from confirmed data.
+3. **Validation:** Confirm the marketing name, vendor, fitted device, revision, and qualifiers; compare with the current online board listing without overriding local installed data.
+4. **Formatting:** Return the defined `MATCH` or `NO MATCH` report with local evidence, URLs, and unresolved choices.
+
+### Detailed procedure
 
 1. From the verified Zephyr workspace, run the venv-local `west boards` command.
    Treat this version-matched catalog, generated from the installed `board.yml`
@@ -42,7 +58,15 @@ debug probe or directory name.
 
 Stop when the physical board, exact target, or fitted device remains ambiguous.
 
-## Output
+## Guardrails & Constraints (Strict Rules)
+
+- **No fabrication:** Do not invent a Zephyr target, fitted device, revision, qualifier, or board match from a probe, directory name, or fuzzy search alone.
+- **Portability:** Keep the installed Zephyr board catalog authoritative for its version; do not introduce CMSIS-pack, toolchain, debugger, or hardware assumptions.
+- **Critical blockers:** Stop when the physical board, exact target, fitted device, or a required variant choice remains ambiguous.
+- **Scope:** Resolve board identity only; do not create a project, build firmware, or configure a debug connection.
+- **Tone and style:** Respond factually and directly. Omit conversational filler.
+
+## Expected Output
 
 Report:
 
@@ -55,7 +79,7 @@ Report:
 - supporting local files and documentation URLs;
 - unresolved choice or mismatch when status is `NO MATCH`.
 
-## Resources
+## Validation Resources
 
 - [Zephyr Supported Boards and Shields](https://docs.zephyrproject.org/latest/boards/index.html)
 - Installed Zephyr `board.yml`, devicetree, and board documentation files
