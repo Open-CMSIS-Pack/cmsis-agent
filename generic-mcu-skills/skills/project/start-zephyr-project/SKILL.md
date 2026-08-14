@@ -5,7 +5,25 @@ description: Create an initial CMSIS Zephyr Blinky solution for a board already 
 
 # Start Zephyr Project
 
-## Workflow
+## Target & Persona
+
+- **Role:** CMSIS and Zephyr Project Integrator
+- **Objective:** Create and validate one initial west-integrated CMSIS Zephyr Blinky solution from verified environment, board, and pack information.
+
+## Prerequisites & Context
+
+- **Expected input:** A solution directory, the physical board and exact Zephyr target, verified CMSIS and Zephyr environment results, verified CMSIS BSP/DFP identifiers, and a selected installed CMSIS compiler when more than one is available.
+- **Dependencies:** The four sibling skills linked below; CMSIS-Toolbox `cbuild` 2.14.0 or later; an existing Zephyr workspace and its virtual environment; the bundled solution and Blinky assets; and publicly available CMSIS packs when `cbuild --packs` needs them.
+- **Portability:** Applies to Zephyr-supported boards with verified CMSIS BSP or DFP support. It depends on CMSIS-Toolbox west integration and uses GCC-specific libc settings only when GCC is selected; it does not require the Zephyr SDK, sysbuild, or a particular debugger.
+
+## Execution Steps (Strict Workflow)
+
+1. **Analysis:** Reuse only current verified prerequisite results and stop when the board, support, compiler, or environment information is absent or ambiguous.
+2. **Processing:** Render the bundled solution and Blinky assets using the verified identifiers and support situation.
+3. **Validation:** Run the exact `cbuild setup` and `cbuild` commands below in the verified CMSIS and Zephyr environment.
+4. **Formatting:** Produce the requested files and report the environment, identifiers, selected packs, setup outcome, and build outcome.
+
+### Detailed procedure
 
 Apply these sibling skills in order:
 
@@ -154,7 +172,13 @@ retry a failed check with a modified command.
    command. Report every pack installation and stop when a required pack cannot
    be obtained.
 
-## Guardrails
+## Guardrails & Constraints (Strict Rules)
+
+- **No fabrication:** Do not invent or guess identifiers, paths, pack relationships, dependencies, compiler availability, or test results.
+- **Portability:** Do not add a device-, board-, compiler-, debugger-, or RTOS-specific setting unless the verified inputs require it; retain the conditional GCC-only configuration below.
+- **Critical blockers:** Stop before writing project files when a prerequisite fails, required values are absent or ambiguous, a compiler choice is unresolved, or either required validation command fails.
+- **Scope:** Create and validate only the initial Blinky solution. Leave debugger, trace, board-specific validation, tool installation, and environment repair to later work.
+- **Tone and style:** Respond factually and directly. Omit conversational filler.
 
 - Do not install, upgrade, repair, or reconfigure prerequisite tools.
 - Do not require the Zephyr SDK; Keil Studio manages the development tools.
@@ -171,14 +195,14 @@ retry a failed check with a modified command.
 - Stop and report the producing prerequisite when a required value is absent or
   ambiguous.
 
-## Output
+## Expected Output
 
 Produce an initial `<solution-directory>/zephyr.csolution.yml` and self-contained
 `<solution-directory>/blinky` Zephyr application without unresolved tokens.
 Summarize the environment versions, exact Zephyr target, fitted device, CMSIS
 match type, CMSIS identifiers, selected packs, setup status, and build status.
 
-## Resources
+## Validation Resources
 
 - [CMSIS-Toolbox west build system integration](https://open-cmsis-pack.github.io/cmsis-toolbox/build-overview/#west-build-system-integration)
 - [CMSIS-Toolbox build tools](https://open-cmsis-pack.github.io/cmsis-toolbox/build-tools/)
