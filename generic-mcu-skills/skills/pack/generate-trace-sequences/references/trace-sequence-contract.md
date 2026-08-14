@@ -80,7 +80,7 @@ When a verified device-specific trace design uses a CoreSight component in a non
 
 For a selected device subtree, place a configuration shared by all selected descendants on the topmost selected common level. Put only specializations/deviations on outer leaf variants. The same placement rule applies to `<debugvars>`, component sequence bodies, scaffold calls, and device-extension placeholders.
 
-The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Fill every `TODO` only from the trace knowledge record and authoritative device/CoreSight documentation.
+The XML assets use a wrapper element only to remain well-formed standalone files. Copy their child `debugvars`/`sequence` elements into the PDSC; do not copy the wrapper. They are skeletons, not validated device configurations. Resolve every device-specific placeholder—such as an instance suffix, component base address/AP, selected component calls, and trace-mode routing—only from the trace knowledge record and authoritative device/CoreSight documentation. The `ADD-DEVICE-SPECIFIC-HERE` markers are not placeholders: retain them as user-maintained extension regions.
 
 ## Component asset fidelity
 

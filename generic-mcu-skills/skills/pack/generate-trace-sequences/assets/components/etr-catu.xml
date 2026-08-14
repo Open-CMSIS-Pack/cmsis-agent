@@ -4,7 +4,7 @@
     // ETR
     __var ETR___INSTANCE_INDEX___ADDRESS           = 0x00000000;
     __var ETR___INSTANCE_INDEX___AP                = 0x00000000;
-    __var ETR___INSTANCE_INDEX___SYNCCNT           = 0xA; // TODO: DEFAULT
+    __var ETR___INSTANCE_INDEX___SYNCCNT           = 0xA;
     __var ETR___INSTANCE_INDEX___TRIGGER_COUNT     = 0x0;
     __var ETR___INSTANCE_INDEX___BUFFER_ADDRESS    = 0x00000000;
     __var ETR___INSTANCE_INDEX___BUFFER_ADDRESS_HI = 0x00000000;
@@ -20,7 +20,6 @@
 
     // CATU
     // Additional settings if CATU implemented
-    // TODO: Seems like better set up by target software
     __var CATU___INSTANCE_INDEX___ADDRESS             = 0x00000000;
     __var CATU___INSTANCE_INDEX___AP                  = 0x00000000;
     __var CATU___INSTANCE_INDEX___MODE                = 0x00000000;            // [0]: 1- Translate, 0 - Pass-through

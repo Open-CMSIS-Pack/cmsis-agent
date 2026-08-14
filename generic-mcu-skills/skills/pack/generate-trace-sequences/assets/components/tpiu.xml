@@ -26,14 +26,14 @@
     </block>
     <control if="swoTrace != 0">
       <block>
-        Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0xFB0, LAR_KEY);     // TODO: Double-check if still necessary
+        Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0xFB0, LAR_KEY);     // TPIU Lock Access Register: Unlock TPIU
         Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0x010, prescaler);   // TPIU Asynchronous Clock Prescaler Register: No prescaling
         Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0x0F0, 0x00000002);  // TPIU Selected Pin Protocol Register: Select SWO
       </block>
     </control>
     <control if="syncTrace != 0">
       <block>
-        Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0xFB0, LAR_KEY);       // TODO: Double-check if still necessary
+        Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0xFB0, LAR_KEY);       // TPIU Lock Access Register: Unlock TPIU
         Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0x010, 2*prescaler);   // TPIU Asynchronous Clock Prescaler Register: No prescaling
         Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0x004, 1 &lt;&lt; (tracePortWidth - 1));  // TPIU Current Synchronous Port Width
         Write32(TPIU___INSTANCE_INDEX___ADDRESS + 0x0F0, 0x00000000);    // TPIU Selected Pin Protocol Register: Select Sync Trace Port
