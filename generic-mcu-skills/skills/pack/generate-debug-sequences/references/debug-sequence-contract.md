@@ -1,5 +1,9 @@
 # Device debug-sequence contract
 
+## Shared integration ownership
+
+Run `$prepare-pdsc-sequence-change` before domain assembly, `$manage-pdsc-debugvars` for a documented runtime choice, `$apply-confirmed-pdsc-proposal` after confirmation, and `$validate-pdsc-sequence-xml` for common XML/PDSC and `<block>` checks. This contract defines the debug-specific evidence, CPU, default-override, and low-power requirements that extend those shared workflows.
+
 ## Scope and evidence
 
 Reuse the read-only `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` from `$debug-knowledge`: cross-check selected scope, processors, DP/AP/APID mappings, inherited definitions, and device behavior. Create `.agent-artifacts/<pdsc-stem>.debug-sequences.md` without confirmation. Record the knowledge reference, scope, processors, inherited sequences, proposed names, placement and descendants, evidence, default-implementation provenance, low-power debug behavior, and open questions. If the knowledge record lacks required connection facts, return to `$debug-knowledge`.
@@ -22,10 +26,6 @@ Analyze every affected CPU connection: compare `Pname`, processor-to-DP/AP/APID 
 
 When the change adds a `<debugvars>` `__var`, suggest adding or updating the matching `.dbgconf` file with Configuration Wizard annotations. Include the variable name, default, and applicable scope; do not modify the `.dbgconf` file unless the user includes it in their confirmation.
 
-## Formatting, confirmation, and validation
+## Debug-specific validation
 
-Align matching XML tags. Put C-like content on lines inside each `<block>`, indented one level deeper than the tag, with one semicolon-terminated statement per line; keep XML entities intact. A one-line `<block>` body or multiple C-like statements on one line is a validation failure. Do not compress, partially generate, or omit required structure when context or time is tight. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
-
-Before changing a user-owned PDSC or other file, present the sequence record, referenced debug knowledge record, and proposed XML for confirmation. After confirmation, immediately apply and validate the complete non-trace change in the same turn.
-
-Validate XML/PDSC syntax with the available toolchain. Run `rg -n '<block>.*;</block>' <target.pdsc>` and `rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>`, then inspect and resolve every C-like match. For overridden predefined sequences, compare generated output with the current specification default and record every evidence-backed difference. Report changed sequences, per-CPU applicability, sources, placement, and validation results.
+For every overridden predefined sequence, compare generated output with the current specification default and record every evidence-backed difference. Run documented low-power checks when a target is available, or record the required test. Report changed sequences, per-CPU applicability, sources, placement, and the shared-validation result.

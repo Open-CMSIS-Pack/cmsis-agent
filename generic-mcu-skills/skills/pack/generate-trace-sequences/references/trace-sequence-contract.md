@@ -1,5 +1,9 @@
 # Trace assembly contract
 
+## Shared integration ownership
+
+Run `$prepare-pdsc-sequence-change` before domain assembly, `$manage-pdsc-debugvars` for a documented runtime choice, `$apply-confirmed-pdsc-proposal` after confirmation, and `$validate-pdsc-sequence-xml` for common XML/PDSC and `<block>` checks. This contract defines the trace-specific topology, asset, scaffold, routing, marker, and lifecycle requirements that extend those shared workflows.
+
 Use the current [Open-CMSIS-Pack *Debug Description* specification](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/debug_description.html) as the grammar authority. Its `Sequence("name")` function calls another debug access sequence; predefined sequence implementations in a PDSC override the debugger-provided behavior. Use `.agent-artifacts/<pdsc-stem>.trace-knowledge.md` from `$trace-knowledge` as read-only input. Consult `.agent-artifacts/<pdsc-stem>.debug-knowledge.md` from `$debug-knowledge` only when trace implementation requires a debug connection or dormant-state fact that the trace knowledge record does not provide.
 
 ## Contents
@@ -84,8 +88,6 @@ A selected component asset is the source template for its operations, not an ill
 
 For every selected asset, add a line-level merge checklist to `.agent-artifacts/<pdsc-stem>.trace-sequences.md` that identifies every retained, changed, and omitted line or block. Every change or omission requires a documented device-specific evidence reason. Before completion, compare each generated fragment to the corresponding selected asset after normalizing approved instance suffixes and evidence-backed substituted values. Flag a missing comment, variable declaration, control block, wait, or cleanup as a validation failure unless the checklist records its evidence-backed omission. Never simplify for brevity, even when the XML is schema-valid.
 
-Format generated sequence fragments for review: matching XML tags align; C-like text starts on the line after `<block>`, is indented one level inside it, and uses one statement per semicolon-terminated line. Do not split XML entities such as `&amp;`.
-
 ## Structural and formatting gates
 
 Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
@@ -94,11 +96,9 @@ Put each high-level routing sequence's `__var` declarations in its opening `<blo
 
 When a retained scaffolding sequence has no C-like content other than its standard trace-mode `__var` declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`. Remove this comment when a component call or device-specific operation is added.
 
-Treat one-line `<block>` bodies and multiple C-like semicolon-terminated statements on one line as validation failures. Before completion, validate XML/PDSC syntax and run:
+Before completion, run `$validate-pdsc-sequence-xml`. Then run this trace-specific marker check:
 
 ```text
-rg -n '<block>.*;</block>' <target.pdsc>
-rg -n '^[[:space:]]*[^<].*;.*;' <target.pdsc>
 rg -n 'INSERT-CORESIGHT-SNIPPET-CALLS-HERE' <target.pdsc>
 ```
 
