@@ -91,7 +91,8 @@ Generic skills share CMSIS-based procedures across device families. Device-, too
 4. Treat the CMSIS foundation above as the catalog baseline. Declare every additional input and dependency, including the compiler, build system, debugger, RTOS, device family, vendor tool, or cloud service.
 5. Define a strict workflow, blockers, expected output, and a repeatable validation method.
 6. Add scripts, references, or assets only when they are necessary for the skill.
-7. Test the skill with representative inputs, including more than one MCU family, toolchain, or execution environment when portability is claimed.
+7. Generate `agents/openai.yaml` with the available skill tooling. Set `interface.display_name` to `CMSIS: <skill display name>` to namespace the skill in selection interfaces.
+8. Test the skill with representative inputs, including more than one MCU family, toolchain, or execution environment when portability is claimed.
 
 See the repository [CONTRIBUTING.md](../CONTRIBUTING.md) for the contribution process. The structure and template follow the design discussed in [issue #2](https://github.com/Open-CMSIS-Pack/cmsis-agent/issues/2).
 
