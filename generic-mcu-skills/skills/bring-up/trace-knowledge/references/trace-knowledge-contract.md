@@ -22,7 +22,7 @@ When a cited vendor documentation URL is unreachable, run `$resolve-official-dev
 
 For each item, cite the document edition/revision and section/page when known; for source, cite repository/version, path, and symbol or line. An authoritative vendor SDK header or source file may evidence a generated pin-function-register encoding when the hardware manual omits that encoding; cite the matching device, SDK version, path, and symbol. Do not infer from a part name or similar device: component addresses, identifiers, core associations, trace routing, clock control, pin configuration, or sink behavior.
 
-If documentation does not establish CoreSight topology, offer `pyocd gdbserver -vv` for an accessible target or request its complete startup log. Detection is positive but incomplete evidence: it can omit powered-down/reset-held, debug-locked, or disabled subsystems. Rely on a repeat scan only with documented unlock or power-up steps; an incomplete scan remains incomplete.
+If documentation does not establish a required CoreSight topology observation, run `$pyocd-detect-debug-topology` for an accessible target or a supplied complete startup log. Cite its result as supplementary evidence; do not treat an absent observation as evidence that a component does not exist. The detector requires documented unlock or power-up steps before relying on a repeat scan.
 
 ## Required review record
 

@@ -13,7 +13,7 @@ description: Build a documentation-led, verifiable knowledge record of an existi
 ## Prerequisites & Context
 
 - **Expected input:** An existing target `.pdsc`, selected family/subFamily/device/variant scope, affected processor descriptions, and available device documentation or target startup logs. A current `.agent-artifacts/<pdsc-stem>.debug-access-knowledge.md` record is supporting input when trace evidence needs a processor association, debug connection, DP/AP path, protocol, or dormant-state fact.
-- **Dependencies:** `$debug-access-knowledge` when required access facts are absent from trace evidence; `$resolve-official-device-documentation` for unavailable vendor sources; `$board-debug-knowledge` for an explicitly requested board configuration; the current Open-CMSIS-Pack *Debug Description* specification; and the trace evidence contract in `references/trace-knowledge-contract.md`.
+- **Dependencies:** `$debug-access-knowledge` when required access facts are absent from trace evidence; `$pyocd-detect-debug-topology` when documentation needs supplementary runtime observations; `$resolve-official-device-documentation` for unavailable vendor sources; `$board-debug-knowledge` for an explicitly requested board configuration; the current Open-CMSIS-Pack *Debug Description* specification; and the trace evidence contract in `references/trace-knowledge-contract.md`.
 - **Owned artifact:** `.agent-artifacts/<pdsc-stem>.trace-knowledge.md` at the project root. Do not create a DFP or modify PDSC debug-description elements or sequences.
 
 ## Execution Steps (Strict Workflow)
@@ -28,7 +28,6 @@ description: Build a documentation-led, verifiable knowledge record of an existi
 
 - Do not invent trace component addresses, identifiers, versions, DP/AP paths, routes, trace-clock control, pin-function or electrical configuration, path-selection controls, sink behavior, or device-specific lifecycle constraints. Return missing reusable access facts to `$debug-access-knowledge`.
 - Do not edit PDSC debug descriptions or sequences. Do not load reusable trace-component assets. Inspect existing PDSC sequences only when needed to establish documented trace topology.
-- Treat automatic target detection as positive but incomplete evidence. Require documented unlock or power-up steps before relying on a repeat scan.
 - Preserve `READY` unless an affected fact becomes stale, contradictory, or insufficient. Use `BLOCKED` only when a required input is unavailable and name that input.
 - Treat the artifact as read-only outside this workflow. Return to this workflow whenever a required trace fact is absent, stale, contradictory, or insufficient.
 

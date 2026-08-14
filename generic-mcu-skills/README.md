@@ -21,6 +21,8 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 | Skill | Purpose | Artifacts |
 | --- | --- | --- |
 | [`board-debug-knowledge`](skills/bring-up/board-debug-knowledge/SKILL.md) | Build an evidenced record of a named board's debug and trace routing alternatives without narrowing device-level Pack support. | |
+| [`check-pyocd-availability`](skills/bring-up/check-pyocd-availability/SKILL.md) | Check whether pyOCD is on PATH or, in VS Code, locate the CMSIS Debugger bundle. | |
+| [`pyocd-detect-debug-topology`](skills/bring-up/pyocd-detect-debug-topology/SKILL.md) | Capture supplementary pyOCD debug and CoreSight topology observations without inferring undocumented hardware facts. | |
 | [`debug-access-knowledge`](skills/bring-up/debug-access-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's reusable CMSIS debug access topology. | <ul><li>Output: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`: verified processor, DP/AP, protocol, and dormant-state facts</li></ul> |
 | [`debug-knowledge`](skills/bring-up/debug-knowledge/SKILL.md) | Build a documented, reviewable record of device debug behavior after access topology is known. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`</li><li>Output: `.agent-artifacts/{pdsc-stem}.debug-knowledge.md`: verified reset, unlock, boot, flash, and low-power facts</li></ul> |
 | [`resolve-official-device-documentation`](skills/bring-up/resolve-official-device-documentation/SKILL.md) | Recover a traceable official vendor source for an unavailable device document. | |

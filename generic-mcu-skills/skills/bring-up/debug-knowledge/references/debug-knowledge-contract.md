@@ -18,7 +18,7 @@ When a cited vendor documentation URL is unreachable, run `$resolve-official-dev
 
 For each item, cite the document edition/revision and section/page when known; for source, cite repository/version, path, and symbol or line. Do not infer device-debug behavior from a part name or similar device.
 
-If documentation does not establish a requested device-debug behavior, offer `pyocd gdbserver -vv` for an accessible target or request its complete startup log. Detection is positive but incomplete evidence: it can omit powered-down/reset-held, debug-locked, or disabled subsystems. Rely on a repeat scan only with documented unlock or power-up steps; an incomplete scan remains incomplete.
+If documentation does not establish a device-debug behavior, keep that behavior unresolved. Return a missing processor, connection, DP/AP, protocol, or dormant-state fact to `$debug-access-knowledge`. Do not treat runtime detection as evidence of reset, unlock, authentication, boot, flash, processor-control, or low-power behavior.
 
 ## Required review record
 

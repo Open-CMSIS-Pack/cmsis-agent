@@ -13,7 +13,7 @@ description: "Build a documentation-led, verifiable record of an existing SoC's 
 ## Prerequisites & Context
 
 - **Expected input:** An existing target `.pdsc`, selected family/subFamily/device/variant scope, affected processor descriptions, and available device documentation or startup logs.
-- **Dependencies:** The current Open-CMSIS-Pack *Debug Description* specification; `$resolve-official-device-documentation` when a cited vendor source is unavailable; and the optional `pyocd gdbserver -vv` startup log when an accessible target can provide supplementary evidence.
+- **Dependencies:** The current Open-CMSIS-Pack *Debug Description* specification; `$resolve-official-device-documentation` when a cited vendor source is unavailable; and `$pyocd-detect-debug-topology` when documentation needs supplementary runtime observations.
 - **Owned artifact:** `.agent-artifacts/<pdsc-stem>.debug-access-knowledge.md` at the project root. Do not modify PDSC debug-description elements or sequences.
 - **Portability:** Support any existing CMSIS Device Family Pack. Do not assume a device family, debug probe, toolchain, or active target.
 
@@ -21,7 +21,7 @@ description: "Build a documentation-led, verifiable record of an existing SoC's 
 
 1. **Analysis:** Locate the target PDSC, selected device subtree, affected processors, inherited/local debug definitions, and any existing owned access record. Stop if no device description exists.
 2. **Processing:** Collect only documented processor associations, connection models, DP/AP/APID paths, protocols, required non-sequence access definitions, and dormant-state decisions. When a cited vendor URL is unavailable, run `$resolve-official-device-documentation` and retain its returned resolution. Treat board evidence as out of scope; use `$board-debug-knowledge` for an explicitly requested board configuration.
-3. **Validation:** Cite each fact with document edition/revision and section/page when known, or repository/version, path, and symbol/line for source. Treat `pyocd gdbserver -vv` detection as positive but incomplete evidence; require documented unlock or power-up steps before relying on a repeat scan. Record unknown, conflicting, and unavailable facts without inference.
+3. **Validation:** Cite each fact with document edition/revision and section/page when known, or repository/version, path, and symbol/line for source. When documentation does not establish a required access observation, run `$pyocd-detect-debug-topology` and cite its result as supplementary evidence. Record unknown, conflicting, and unavailable facts without inference.
 4. **Formatting:** Create or update the owned record, present it for review as `DRAFT — AWAITING USER REVIEW`, and set `READY` only after user confirmation and sufficient evidence for the intended downstream work.
 
 ## Guardrails & Constraints (Strict Rules)
