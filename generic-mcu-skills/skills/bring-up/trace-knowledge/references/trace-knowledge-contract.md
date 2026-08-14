@@ -10,7 +10,7 @@ Map the selected device subtree, including inheritance and leaf variants. Inspec
 
 Use a current `.agent-artifacts/<pdsc-stem>.debug-access-knowledge.md` record from `$debug-access-knowledge` only when it supplies a required processor, debug connection, DP/AP path, protocol, or dormant-state decision. Cite it as a supporting source; do not update it. If the trace evidence cannot establish a required reusable access fact and no sufficient access record exists, return to `$debug-access-knowledge`.
 
-For each trace path, record the configuration that makes it operable: trace-clock source and enablement, pin-function and electrical configuration, path-selection controls, and the sink operating mode plus device-specific lifecycle constraints. Consider mux or function registers (including PFS where that is the vendor term), pad control, drive strength, slew rate, pull configuration, and voltage-domain settings when documented as relevant; record an authoritative `not applicable` decision when they are not required. Do not research generic CoreSight component lifecycle programming here; trace generator skills supply it from component templates.
+For each trace mode, build a source-to-sink route table before selecting components for that mode. Record the ordered route and classify every participating component as `source-side`, `funnel/glue`, or `sink/output`; a component may be recorded in more than one mode only with route-specific evidence. Record the configuration that makes the route operable: trace-clock source and enablement, pin-function and electrical configuration, path-selection controls, and the sink operating mode plus device-specific lifecycle constraints. Consider mux or function registers (including PFS where that is the vendor term), pad control, drive strength, slew rate, pull configuration, and voltage-domain settings when documented as relevant; record an authoritative `not applicable` decision when they are not required. Do not research generic CoreSight component lifecycle programming here; trace generator skills supply it from component templates. Do not select every discovered TPIU, funnel, or other trace component for every mode: include it only when the route table evidences its role and connection from that mode's source to its sink or output.
 
 Search linked and local documentation first:
 
@@ -46,8 +46,12 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 | CoreSight component instance | Product / variant / version (optional) | Base address | DP / AP path | Evidence | Status |
 |---|---|---|---|---|---|
 
+## Source-to-sink routes
+| Path / mode | Route order | Component instance | Role (`source-side` / `funnel/glue` / `sink/output`) | Route connection or interface | Evidence | Status |
+|---|---:|---|---|---|---|---|
+
 ## Available trace paths
-| Path / mode | Processor | Route / components | DP / AP path | Availability | Evidence |
+| Path / mode | Processor | Source-to-sink route | DP / AP path | Availability | Evidence |
 |---|---|---|---|---|---|
 
 ## Trace operating requirements
@@ -59,8 +63,8 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 |---|---|---|---|---|---|
 
 ## Completion checklist
-| Path / mode | Clock control | Pin-function and electrical configuration | Source selection | Device-specific sink constraints | Retrieval attempt and precise blocker | Complete |
-|---|---|---|---|---|---|---|
+| Path / mode | Source-to-sink route | Clock control | Pin-function and electrical configuration | Source selection | Device-specific sink constraints | Retrieval attempt and precise blocker | Complete |
+|---|---|---|---|---|---|---|---|
 
 ## Open questions
 - `<question or none>`
@@ -74,13 +78,13 @@ Status: `DRAFT — AWAITING USER REVIEW` | `READY` | `BLOCKED`
 - Only this skill may update the artifact. Treat it as read-only elsewhere; return here if a required trace fact is absent, stale, contradictory, or insufficient.
 - For user review, outline every available, unavailable, or unresolved trace path and its reason, even when trace was not requested. After confirmation, configure every evidenced path by default; do not require per-path selection.
 - For a board-specific request, run `$board-debug-knowledge` and copy every documented connector or jumper routing choice and its evidenced candidate runtime choice. Treat these as optional alternatives and preserve all device-level Pack options. This skill does not edit PDSC `debugvars`.
-- Before writing or presenting a draft, make a second evidence pass for every unresolved trace prerequisite: clock control, pin-function or electrical configuration, source selection, and device-specific sink constraints. Mark the completion checklist complete only when every path has all required facts or records a concrete retrieval attempt and precise blocker.
+- Before writing or presenting a draft, make a second evidence pass for every unresolved trace prerequisite: a complete source-to-sink route with each participating component classified, clock control, pin-function or electrical configuration, source selection, and device-specific sink constraints. Mark the completion checklist complete only when every path has all required facts or records a concrete retrieval attempt and precise blocker.
 
 ## Readiness state
 
 - The user's first review confirmation, or a follow-up that clearly authorizes completing trace work, is sufficient to set `READY` when the evidence requirements are met; do not require a separate conversational confirmation.
 - Create and update the artifact without confirmation. Before confirmation, use exactly `DRAFT — AWAITING USER REVIEW` and present it for corrections.
-- Set `READY` only after confirmation and sufficient evidence for the intended downstream work. Trace assembly requires an evidenced processor, CoreSight addresses, and every available trace path; for each path, it also requires evidenced trace-clock source and enablement, pin-function and electrical configuration, path-selection controls, and sink mode plus device-specific lifecycle constraints. Obtain a reusable access fact from `$debug-access-knowledge` only when it is required and not self-contained in this record. Trace generator skills supply generic component lifecycle programming from templates. Record an authoritative `not applicable` decision where a control does not apply. Leave the record non-READY for trace assembly when any required control is unknown, unavailable, or contradictory.
+- Set `READY` only after confirmation and sufficient evidence for the intended downstream work. Trace assembly requires an evidenced processor, CoreSight addresses, and every available trace path; for each path, it also requires an evidenced source-to-sink route table whose ordered components are classified as source-side, funnel/glue, or sink/output, plus evidenced trace-clock source and enablement, pin-function and electrical configuration, path-selection controls, and sink mode plus device-specific lifecycle constraints. Obtain a reusable access fact from `$debug-access-knowledge` only when it is required and not self-contained in this record. Trace generator skills supply generic component lifecycle programming from templates. Record an authoritative `not applicable` decision where a control does not apply. Leave the record non-READY for trace assembly when a route is incomplete or any required control is unknown, unavailable, or contradictory.
 - Preserve `READY` unless an affected fact becomes stale, contradictory, or insufficient. Use `BLOCKED` only for an unavailable required input, and name it.
 
 Keep verified trace knowledge as reusable CMSIS-Pack input.
