@@ -2,7 +2,7 @@
 <cmsis-pack-trace-snippet component="ETF">
   <debugvars>
     // ETF
-    __var ETF___INSTANCE_INDEX___ADDRESS       = 0x00000000;
+    __var ETF___INSTANCE_INDEX___ADDRESS       = 0xE0042000;
     __var ETF___INSTANCE_INDEX___AP            = 0x00000000;
   </debugvars>
   <sequence name="CS_ETF___INSTANCE_INDEX___Configure_HWFIFO">
@@ -12,7 +12,7 @@
       __var ffcrValue = 0x00000000;
       __var etfStatus = 0x00000000;
 
-      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Configure_HWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
       __ap = ETF___INSTANCE_INDEX___AP; // Set AP
 
       // Configure ETF to HW FIFO for Sync Trace
@@ -35,7 +35,7 @@
     </block>
     <block>
       __ap = savedAP;
-      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureHWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Configure_HWFIFO @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
   <sequence name="CS_ETF___INSTANCE_INDEX___Configure_CircularBuffer">
@@ -46,7 +46,7 @@
       __var etfStatus = 0x00000000;
       __var traceBufferSyncCnt = 0xA;
 
-      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Configure_CircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
       __ap = ETF___INSTANCE_INDEX___AP; // Set AP
 
       // Configure ETF to HW FIFO for Sync Trace
@@ -71,7 +71,7 @@
     </block>
     <block>
       __ap = savedAP;
-      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___ConfigureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Configure_CircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
   <sequence name="CS_ETF___INSTANCE_INDEX___Capture_CircularBuffer">
@@ -81,7 +81,7 @@
       __var savedAP = __ap;
       __var traceBufferSyncCnt = 0xA;
 
-      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "Begin CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Capture_CircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
 
       // Ensure involved components are in a well-defined state.
       Sequence("DoTraceFlush");
@@ -96,7 +96,7 @@
       Write32(ETF___INSTANCE_INDEX___ADDRESS + 0x020, 0x00000001);  // Enable ETF
       __ap = savedAP;
 
-      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___CaptureCircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
+      Message(0, "End CS_ETF___INSTANCE_INDEX_____INSTANCE_INDEX___Capture_CircularBuffer @0x%08X, AP 0x%08X", ETF___INSTANCE_INDEX___ADDRESS, ETF___INSTANCE_INDEX___AP);
     </block>
   </sequence>
   <sequence name="CS_ETF___INSTANCE_INDEX___Flush">

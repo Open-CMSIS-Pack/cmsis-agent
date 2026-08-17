@@ -2,7 +2,7 @@
 <cmsis-pack-trace-snippet component="ETB">
   <debugvars>
     // ETB
-    __var ETB___INSTANCE_INDEX___ADDRESS       = 0x00000000;
+    __var ETB___INSTANCE_INDEX___ADDRESS       = 0xE0042000;
     __var ETB___INSTANCE_INDEX___AP            = 0x00000000;
     __var ETB___INSTANCE_INDEX___TRIGGER_COUNT = 0x0;
   </debugvars>
@@ -115,4 +115,3 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-

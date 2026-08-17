@@ -60,7 +60,7 @@ Call a component operation only from the helper for its active trace mode:
 | `Configure` | `DoTraceStart_<mode>` | Active path only |
 | `Capture` | `DoTraceCapture_<mode>` | Active path only |
 | `Flush` | `DoTraceFlush_<mode>` | Active path only; `TraceFlush` must never be called from a generated component or helper sequence |
-| `ReadBuffer` | `DoTraceReadBuffer` after `DoTraceFlush` | Trace-buffer path only |
+| `ReadBuffer` | `DoTraceRead_Buffer` after `DoTraceFlush` | Trace-buffer path only |
 
 For every applicable start or capture path, call operations in trace-route order: first funnels, then other glue logic such as an ETF in hardware-FIFO mode, then the trace sink or output component.
 

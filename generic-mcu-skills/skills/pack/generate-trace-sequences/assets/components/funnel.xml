@@ -2,9 +2,9 @@
 <cmsis-pack-trace-snippet component="TraceFunnel">
   <debugvars>
     // Funnel
-    __var FUNNEL___INSTANCE_INDEX___ADDRESS    = 0x00000000;
+    __var FUNNEL___INSTANCE_INDEX___ADDRESS    = 0xE0043000;
     __var FUNNEL___INSTANCE_INDEX___AP         = 0x00000000;
-    __var FUNNEL___INSTANCE_INDEX___INPUT_MASK = 0x00000000; // Mask of trace inputs connected to funnel, enable all valid inputs by default.
+    __var FUNNEL___INSTANCE_INDEX___INPUT_MASK = 0x00000003; // Mask of trace inputs connected to funnel, enable all valid inputs by default.
   </debugvars>
   <sequence name="CS_FUNNEL___INSTANCE_INDEX___Configure">
     <block>
@@ -39,4 +39,3 @@
     </block>
   </sequence>
 </cmsis-pack-trace-snippet>
-
