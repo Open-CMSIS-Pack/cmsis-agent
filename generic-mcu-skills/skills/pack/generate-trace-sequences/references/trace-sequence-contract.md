@@ -49,7 +49,7 @@ Map the selected device subtree, its processors, and every evidence-backed trace
 
 Select one asset per required physical CoreSight instance. Omit unused assets, snippets, variables, and calls; merge every selected asset's `<debugvars>` contribution into the target's single `<debugvars>` element; deduplicate names and reject conflicting definitions. Whenever this adds a `<debugvars>` `__var`, suggest adding or updating the matching `.dbgconf` file with Configuration Wizard annotations. Include the variable name, default, and applicable scope; do not modify the `.dbgconf` file unless the user includes it in their confirmation.
 
-Number non-predefined sequences by component type from `0` in ascending verified base-address order and preserve existing numbers: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Rename every copied sequence and every `Sequence("...")` call consistently.
+Number non-predefined sequences by component type from `0` in ascending verified base-address order and preserve existing numbers: `CS_<COMPONENT>_0_*`, `CS_<COMPONENT>_1_*`, and so on. Name the operation as a separate segment and append any operation subvariant as another underscore-separated segment: `CS_<COMPONENT>_<instance>_<operation>[_<subvariant>]` (for example, `CS_ETF_0_Configure_HWFIFO`). Rename every copied sequence and every `Sequence("...")` call consistently.
 
 ## Standard component-operation routing
 
