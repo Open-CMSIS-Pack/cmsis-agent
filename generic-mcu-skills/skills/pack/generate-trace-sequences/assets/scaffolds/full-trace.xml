@@ -1,4 +1,4 @@
-<cmsis-pack-trace-scaffold use-case="full-from-scratch">
+<cmsis-pack-trace-scaffold use-case="full-trace">
   <sequences traceSetup="full">
     <sequence name="TraceStart">
       <block>
@@ -7,7 +7,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific startup work here. -->
+      <!-- Add verified device-specific setup here, including migrated legacy setup when applicable. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
       <control if="swoTrace">
         <block>
@@ -32,7 +32,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific capture work here. -->
+      <!-- Add verified device-specific capture work here, including migrated legacy setup when applicable. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
       <control if="swoTrace">
         <block>
@@ -87,7 +87,7 @@
         </block>
       </control>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific post-flush work here. -->
+      <!-- Add verified device-specific post-flush work here, including migrated legacy setup when applicable. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
     </sequence>
     <sequence name="TraceStop">
@@ -112,7 +112,7 @@
         </block>
       </control>
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE BEGIN -->
-      <!-- Add device-specific shutdown work here. -->
+      <!-- Add verified device-specific shutdown work here, including migrated legacy setup when applicable. -->
       <!-- CMSIS-PACK-TRACE: ADD-DEVICE-SPECIFIC-HERE END -->
     </sequence>
     <sequence name="DoTraceStart_SWO">
@@ -146,6 +146,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- No trace operation is required for this mode. -->
+      <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
     </sequence>
     <sequence name="DoTraceCapture_Sync">
       <block>
@@ -170,6 +171,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- No trace operation is required for this mode. -->
+      <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
     </sequence>
     <sequence name="DoTraceFlush_Sync">
       <block>
@@ -178,6 +180,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
+      <!-- Actual component flush calls only. Do not read a trace buffer here. -->
     </sequence>
     <sequence name="DoTraceFlush_Buffer">
       <block>
@@ -186,6 +189,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
+      <!-- Actual component flush calls only. Do not read a trace buffer here. -->
     </sequence>
     <sequence name="DoTraceReadBuffer">
       <block>
@@ -202,6 +206,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- No trace operation is required for this mode. -->
+      <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
     </sequence>
     <sequence name="DoTraceStop_Sync">
       <block>
@@ -210,6 +215,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- No trace operation is required for this mode. -->
+      <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
     </sequence>
     <sequence name="DoTraceStop_Buffer">
       <block>
@@ -218,6 +224,7 @@
         __var bufferTrace = __traceout &amp; 0x4;
       </block>
       <!-- No trace operation is required for this mode. -->
+      <!-- CMSIS-PACK-TRACE: INSERT-CORESIGHT-SNIPPET-CALLS-HERE -->
     </sequence>
   </sequences>
 </cmsis-pack-trace-scaffold>

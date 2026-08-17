@@ -1,6 +1,6 @@
 # Legacy-to-full migration
 
-Use `assets/scaffolds/legacy-to-full.xml` when an existing PDSC uses `traceSetup="legacy"` or omits `traceSetup`.
+Use `assets/scaffolds/full-trace.xml` when an existing PDSC uses `traceSetup="legacy"` or omits `traceSetup`.
 
 1. Preserve verified device-specific pin, clock, reset, and access-enable behavior as device-extension calls.
 2. Replace debugger-assumed CoreSight setup with selected component-asset calls.

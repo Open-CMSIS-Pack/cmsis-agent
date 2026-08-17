@@ -90,11 +90,11 @@ For every selected asset, add a line-level merge checklist to `.agent-artifacts/
 
 ## Structural and formatting gates
 
-Before editing, select the applicable scaffold and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
+Before editing, use `assets/scaffolds/full-trace.xml` and confirm that every required top-level sequence and applicable `DoTrace*_<mode>` helper remains present, with its opening trace-mode variable block. When migrating legacy setup, also follow `references/legacy-to-full-migration.md`. Insert calls only through the defined helper and extension markers. Do not flatten or inline helpers to shorten the result. Be mindful of patch-size limits when updating PDSC files: split large edits into smaller, focused patches and validate the XML after each patch.
 
 Put each high-level routing sequence's `__var` declarations in its opening `<block>`, before executable statements. These routing sequences are `TraceStart`, `TraceCapture`, `DoTraceFlush`, `TraceFlush`, `TraceStop`, and their `DoTrace*_<mode>` helpers; each begins with `swoTrace`, `syncTrace`, and `bufferTrace` definitions derived from `__traceout`. Component snippet sequences declare only the variables they use.
 
-When a retained scaffolding sequence has no C-like content other than its standard trace-mode `__var` declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`. Remove this comment when a component call or device-specific operation is added.
+When a retained scaffolding sequence has no C-like content other than its standard trace-mode `__var` declarations, put `<!-- No trace operation is required for this mode. -->` after its opening `<block>`. A scaffold-only CoreSight insertion marker may follow it. Remove the comment and marker when a component call or device-specific operation is added.
 
 Before completion, run `$validate-pdsc-sequence-xml`. Then run this trace-specific marker check:
 
