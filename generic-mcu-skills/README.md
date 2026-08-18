@@ -8,8 +8,8 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 
 ### Project
 
-| Skill | Purpose |
-| --- | --- |
+| Skill | Purpose | Artifacts |
+| --- | --- | --- |
 | [`add-cmsis-target`](skills/project/add-cmsis-target/SKILL.md) | Add a verified board or device target and offer compatible packaged board layers. | |
 | [`check-cmsis-environment`](skills/project/check-cmsis-environment/SKILL.md) | Verify CMSIS-Toolbox, CMake, Ninja, and available compiler toolchains. | |
 | [`check-zephyr-environment`](skills/project/check-zephyr-environment/SKILL.md) | Verify a Zephyr workspace, its Python virtual environment, and venv-local west installation. | |
