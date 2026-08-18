@@ -10,13 +10,37 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 
 | Skill | Purpose |
 | --- | --- |
-| [`add-cmsis-target`](skills/project/add-cmsis-target/SKILL.md) | Add a verified board or device target and offer compatible packaged board layers. |
-| [`check-cmsis-environment`](skills/project/check-cmsis-environment/SKILL.md) | Verify CMSIS-Toolbox, CMake, Ninja, and available compiler toolchains. |
-| [`check-zephyr-environment`](skills/project/check-zephyr-environment/SKILL.md) | Verify a Zephyr workspace, its Python virtual environment, and venv-local west installation. |
-| [`identify-cmsis-board-layer`](skills/project/identify-cmsis-board-layer/SKILL.md) | Identify packaged board layers compatible with a CMSIS target and its connections. |
-| [`identify-cmsis-board-support`](skills/project/identify-cmsis-board-support/SKILL.md) | Identify a CMSIS BSP for a board or a DFP for its fitted device. |
-| [`identify-zephyr-board`](skills/project/identify-zephyr-board/SKILL.md) | Resolve a physical board to its exact Zephyr board target and fitted MCU or SoC. |
-| [`start-zephyr-project`](skills/project/start-zephyr-project/SKILL.md) | Create an initial west-integrated CMSIS solution for a Zephyr-supported board. |
+| [`add-cmsis-target`](skills/project/add-cmsis-target/SKILL.md) | Add a verified board or device target and offer compatible packaged board layers. | |
+| [`check-cmsis-environment`](skills/project/check-cmsis-environment/SKILL.md) | Verify CMSIS-Toolbox, CMake, Ninja, and available compiler toolchains. | |
+| [`check-zephyr-environment`](skills/project/check-zephyr-environment/SKILL.md) | Verify a Zephyr workspace, its Python virtual environment, and venv-local west installation. | |
+| [`identify-cmsis-board-layer`](skills/project/identify-cmsis-board-layer/SKILL.md) | Identify packaged board layers compatible with a CMSIS target and its connections. | |
+| [`identify-cmsis-board-support`](skills/project/identify-cmsis-board-support/SKILL.md) | Identify a CMSIS BSP for a board or a DFP for its fitted device. | |
+| [`identify-zephyr-board`](skills/project/identify-zephyr-board/SKILL.md) | Resolve a physical board to its exact Zephyr board target and fitted MCU or SoC. | |
+| [`start-zephyr-project`](skills/project/start-zephyr-project/SKILL.md) | Create an initial west-integrated CMSIS solution for a Zephyr-supported board. | |
+
+### Bring-up
+
+| Skill | Purpose | Artifacts |
+| --- | --- | --- |
+| [`board-debug-knowledge`](skills/bring-up/board-debug-knowledge/SKILL.md) | Build an evidenced record of a named board's debug and trace routing alternatives without narrowing device-level Pack support. | |
+| [`check-pyocd-availability`](skills/bring-up/check-pyocd-availability/SKILL.md) | Check whether pyOCD is on PATH or, in VS Code, locate the CMSIS Debugger bundle. | |
+| [`pyocd-detect-debug-topology`](skills/bring-up/pyocd-detect-debug-topology/SKILL.md) | Capture supplementary pyOCD debug and CoreSight topology observations without inferring undocumented hardware facts. | |
+| [`debug-access-knowledge`](skills/bring-up/debug-access-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's reusable CMSIS debug access topology. | <ul><li>Output: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`: verified processor, DP/AP, protocol, and dormant-state facts</li></ul> |
+| [`debug-knowledge`](skills/bring-up/debug-knowledge/SKILL.md) | Build a documented, reviewable record of device debug behavior after access topology is known. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`</li><li>Output: `.agent-artifacts/{pdsc-stem}.debug-knowledge.md`: verified reset, unlock, boot, flash, and low-power facts</li></ul> |
+| [`resolve-official-device-documentation`](skills/bring-up/resolve-official-device-documentation/SKILL.md) | Recover a traceable official vendor source for an unavailable device document. | |
+| [`trace-knowledge`](skills/bring-up/trace-knowledge/SKILL.md) | Build a documented, reviewable record of an SoC's CoreSight trace topology and operating requirements. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md` when trace evidence needs reusable access facts</li><li>Output: `.agent-artifacts/{pdsc-stem}.trace-knowledge.md`: verified trace paths, constraints, and readiness state</li></ul> |
+
+### Pack
+
+| Skill | Purpose | Artifacts |
+| --- | --- | --- |
+| [`prepare-pdsc-sequence-change`](skills/pack/prepare-pdsc-sequence-change/SKILL.md) | Scope and prepare a debug or trace PDSC sequence change for domain assembly. | |
+| [`manage-pdsc-debugvars`](skills/pack/manage-pdsc-debugvars/SKILL.md) | Design and safely integrate documented PDSC `debugvars` runtime choices. | |
+| [`validate-pdsc-sequence-xml`](skills/pack/validate-pdsc-sequence-xml/SKILL.md) | Validate shared PDSC sequence XML and C-like block formatting. | |
+| [`apply-confirmed-pdsc-proposal`](skills/pack/apply-confirmed-pdsc-proposal/SKILL.md) | Apply and validate an explicitly confirmed PDSC sequence or `debugvars` proposal. | |
+| [`generate-debug-description`](skills/pack/generate-debug-description/SKILL.md) | Add or review verified non-sequence CMSIS-Pack Debug Description definitions in an existing DFP PDSC. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`</li></ul> |
+| [`generate-debug-sequences`](skills/pack/generate-debug-sequences/SKILL.md) | Add evidence-backed device-specific non-trace debug sequences to an existing DFP PDSC. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md`</li><li>Input: `.agent-artifacts/{pdsc-stem}.debug-knowledge.md`</li><li>Output: `.agent-artifacts/{pdsc-stem}.debug-sequences.md`: private proposal record containing proposed sequences, debugvars, evidence, and validation status</li></ul> |
+| [`generate-trace-sequences`](skills/pack/generate-trace-sequences/SKILL.md) | Add modular, evidence-backed CoreSight trace sequences to an existing DFP PDSC. | <ul><li>Input: `.agent-artifacts/{pdsc-stem}.trace-knowledge.md`</li><li>Input: `.agent-artifacts/{pdsc-stem}.debug-access-knowledge.md` when required by the trace record</li><li>Output: `.agent-artifacts/{pdsc-stem}.trace-sequences.md`: private proposal record containing proposed sequences, debugvars, evidence, and validation status</li></ul> |
 
 ## CMSIS foundation
 
