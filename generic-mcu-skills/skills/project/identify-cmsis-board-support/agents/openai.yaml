@@ -1,4 +1,4 @@
 interface:
-  display_name: "Identify CMSIS Board Support"
-  short_description: "Find a CMSIS BSP or DFP for a board"
-  default_prompt: "Use $identify-cmsis-board-support to find the CMSIS BSP or DFP for my board."
+  display_name: "CMSIS: Identify Board Support"
+  short_description: "Resolve one board or device and find its BSP or DFP"
+  default_prompt: "Use $identify-cmsis-board-support to resolve my board or device and find its CMSIS BSP or DFP."

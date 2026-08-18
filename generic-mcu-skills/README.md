@@ -10,8 +10,10 @@ This CMSIS-Agent collection contains skills for AI agents that create, bring up,
 
 | Skill | Purpose | Artifacts |
 | --- | --- | --- |
+| [`add-cmsis-target`](skills/project/add-cmsis-target/SKILL.md) | Add a verified board or device target and offer compatible packaged board layers. | |
 | [`check-cmsis-environment`](skills/project/check-cmsis-environment/SKILL.md) | Verify CMSIS-Toolbox, CMake, Ninja, and available compiler toolchains. | |
 | [`check-zephyr-environment`](skills/project/check-zephyr-environment/SKILL.md) | Verify a Zephyr workspace, its Python virtual environment, and venv-local west installation. | |
+| [`identify-cmsis-board-layer`](skills/project/identify-cmsis-board-layer/SKILL.md) | Identify packaged board layers compatible with a CMSIS target and its connections. | |
 | [`identify-cmsis-board-support`](skills/project/identify-cmsis-board-support/SKILL.md) | Identify a CMSIS BSP for a board or a DFP for its fitted device. | |
 | [`identify-zephyr-board`](skills/project/identify-zephyr-board/SKILL.md) | Resolve a physical board to its exact Zephyr board target and fitted MCU or SoC. | |
 | [`start-zephyr-project`](skills/project/start-zephyr-project/SKILL.md) | Create an initial west-integrated CMSIS solution for a Zephyr-supported board. | |
