@@ -1,6 +1,6 @@
-# CMSIS Agent
+# CMSIS Skills
 
-CMSIS Agent collects resources for AI agents that help developers build embedded applications using CMSIS APIs, software components, and CMSIS Solution project-based tools for build, programming, debugging, and analysis.
+CMSIS Skills collects resources for AI agents that help developers build embedded applications using CMSIS APIs, software components, and CMSIS Solution project-based tools for build, programming, debugging, and analysis.
 
 The repository is organized into independent top-level collections so it can grow beyond skills without mixing their documentation, templates, and resources.
 
@@ -13,7 +13,7 @@ The repository is organized into independent top-level collections so it can gro
 
 ## Workspace agent skills
 
-The [`.agents/skills/`](.agents/skills/) directory contains contributor tooling specific to this repository. These skills maintain CMSIS Agent content; they are not reusable MCU workflow skills from the Generic MCU Skills collection.
+The [`.agents/skills/`](.agents/skills/) directory contains contributor tooling specific to this repository. These skills maintain CMSIS Skills content; they are not reusable MCU workflow skills from the Generic MCU Skills collection.
 
 - [`maintain-workspace-skills`](.agents/skills/maintain-workspace-skills/SKILL.md) applies the repository and collection guidance when a skill, skill resource, template, or skill catalog documentation is created or changed. It also verifies structure, companion metadata, README entries, and available validation results.
 

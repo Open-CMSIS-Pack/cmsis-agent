@@ -1,6 +1,6 @@
 # Generic MCU Skills
 
-This CMSIS-Agent collection contains skills for AI agents that create, bring up, debug, package, and automate microcontroller software through CMSIS and Open-CMSIS-Pack workflows.
+This cmsis-skills collection contains skills for AI agents that create, bring up, debug, package, and automate microcontroller software through CMSIS and Open-CMSIS-Pack workflows.
 
 "Generic MCU" describes reuse across multiple microcontroller families. It does not mean ecosystem-neutral. The skills use CMSIS interfaces, Open-CMSIS-Pack formats and tools, and the associated Visual Studio Code extensions. They avoid unnecessary compiler-, RTOS-, and vendor-specific behavior. Each skill identifies any additional device family, compiler, debugger, probe, RTOS, or vendor tool that it uses.
 
@@ -120,7 +120,7 @@ Generic skills share CMSIS-based procedures across device families. Device-, too
 7. Generate `agents/openai.yaml` with the available skill tooling. Set `interface.display_name` to `CMSIS: <skill display name>` to namespace the skill in selection interfaces.
 8. Test the skill with representative inputs, including more than one MCU family, toolchain, or execution environment when portability is claimed.
 
-See the repository [CONTRIBUTING.md](../CONTRIBUTING.md) for the contribution process. The structure and template follow the design discussed in [issue #2](https://github.com/Open-CMSIS-Pack/cmsis-agent/issues/2).
+See the repository [CONTRIBUTING.md](../CONTRIBUTING.md) for the contribution process. The structure and template follow the design discussed in [issue #2](https://github.com/Open-CMSIS-Pack/cmsis-skills/issues/2).
 
 ## Example projects
 

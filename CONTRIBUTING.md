@@ -7,18 +7,18 @@ Thank you for your interest in contributing to our project.
 There are multiple ways you can contribute to this project:
 
 1. **Report an Issue**: If you encounter a bug or have a suggestion, please open an issue on our
-[GitHub Issues page](https://github.com/Open-CMSIS-Pack/cmsis-agent/issues) to start the discussion about your proposal.
+[GitHub Issues page](https://github.com/Open-CMSIS-Pack/cmsis-skills/issues) to start the discussion about your proposal.
 
 2. **Open a Pull Request**: Contributions are welcome, whether you're fixing a bug, adding a new feature, or improving
 documentation. You can submit a pull request to our
-[GitHub repository](https://github.com/Open-CMSIS-Pack/cmsis-agent/pulls) to:
+[GitHub repository](https://github.com/Open-CMSIS-Pack/cmsis-skills/pulls) to:
    - Provide a bug fix
    - Add new features or enhancements
    - Improve or expand existing documentation
 
 ### Report an Issue
 
-Please feel free to raise an [issue on GitHub](https://github.com/Open-CMSIS-Pack/cmsis-agent/issues)
+Please feel free to raise an [issue on GitHub](https://github.com/Open-CMSIS-Pack/cmsis-skills/issues)
 to report misbehavior (i.e. bugs).
 
 Issues are your best way to interact directly with the development team and the community.
@@ -26,14 +26,14 @@ We encourage you to add implementation suggestions, as this enables the communit
 
 We shall be monitoring and responding to issues as best we can.
 Please attempt to avoid filing duplicates of open or closed items when possible.
-We use labels to classify and filter issues. See the [available set of labels](https://github.com/Open-CMSIS-Pack/cmsis-agent/labels).
+We use labels to classify and filter issues. See the [available set of labels](https://github.com/Open-CMSIS-Pack/cmsis-skills/labels).
 
 ### Open a Pull Request
 
 We encourage contributions of all sizes, but please keep each contribution focused and independent. We prefer smaller,
 more manageable pull requests, which makes it easier for us to review, provide feedback, and merge changes quickly.
 
-You can submit a pull request at our [GitHub Pull Requests page](https://github.com/Open-CMSIS-Pack/cmsis-agent/pulls).
+You can submit a pull request at our [GitHub Pull Requests page](https://github.com/Open-CMSIS-Pack/cmsis-skills/pulls).
 
 #### Contribution Process
 

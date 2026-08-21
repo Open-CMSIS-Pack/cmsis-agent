@@ -1,6 +1,6 @@
 ---
 name: maintain-workspace-skills
-description: Create, edit, review, or validate skills in this CMSIS Agent workspace. Use whenever a `SKILL.md`, its resources, a skill template, or skill catalog documentation changes, to apply the applicable README guidance and templates and keep README skill documentation accurate.
+description: Create, edit, review, or validate skills in this CMSIS Skills workspace. Use whenever a `SKILL.md`, its resources, a skill template, or skill catalog documentation changes, to apply the applicable README guidance and templates and keep README skill documentation accurate.
 ---
 
 # Maintain Workspace Skills
@@ -14,7 +14,7 @@ description: Create, edit, review, or validate skills in this CMSIS Agent worksp
 
 - **Expected input:** A changed or proposed `SKILL.md`, its containing directory and resources, and the applicable repository and collection `README.md` files.
 - **Dependencies:** `CONTRIBUTING.md` when contribution-wide rules apply; templates declared by the owning collection README; and every available authoring skill that matches the requested skill's domain or creation workflow. Use `$skill-creator` for general skill design and structural validation. Generic MCU Skills use `generic-mcu-skills/templates/SKILL_TEMPLATE.md`.
-- **Portability:** Applies only to skills in this CMSIS Agent workspace. Do not introduce MCU-family, device, architecture, toolchain, debugger, build-system, or RTOS assumptions unless the skill's own inputs require them.
+- **Portability:** Applies only to skills in this CMSIS skills workspace. Do not introduce MCU-family, device, architecture, toolchain, debugger, build-system, or RTOS assumptions unless the skill's own inputs require them.
 
 ## Execution Steps (Strict Workflow)
 

@@ -1,6 +1,6 @@
 # Open-CMSIS-Pack Security Policy  
 
-This document outlines the security procedures and policies for the Open-CMSIS-Pack CMSIS-Agent project.
+This document outlines the security procedures and policies for the Open-CMSIS-Pack cmsis-skills project.
 
 ## Table of Contents  
 
@@ -10,13 +10,13 @@ This document outlines the security procedures and policies for the Open-CMSIS-P
 
 ## Reporting a Security Issue  
 
-The Open-CMSIS-Pack cmsis-agent maintainers take security issues seriously and appreciate responsible
+The Open-CMSIS-Pack cmsis-skills maintainers take security issues seriously and appreciate responsible
 disclosure. Your efforts to improve project security are highly valued.  
 
 We use GitHub's [private vulnerability reporting](https://docs.github.com/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability)
 guidelines.
 To report a security issue, please click on
-[Report a vulnerability](https://github.com/Open-CMSIS-Pack/cmsis-agent/security/advisories/new) and
+[Report a vulnerability](https://github.com/Open-CMSIS-Pack/cmsis-skills/security/advisories/new) and
 include:  
 
 - A detailed description of the issue  
